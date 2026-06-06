@@ -1,0 +1,10 @@
+{
+  "categories": [
+    { "id": "documentation", "label": "Documentación", "icon": "📚" },
+    { "id": "testing", "label": "Testing & QA", "icon": "🧪" },
+    { "id": "devtools", "label": "DevTools", "icon": "🛠️" },
+    { "id": "search", "label": "Búsqueda", "icon": "🔍" },
+    { "id": "filesystem", "label": "Archivos", "icon": "📁" },
+    { "id": "memory", "label": "Memoria", "icon": "🧠" }
+  ]
+}

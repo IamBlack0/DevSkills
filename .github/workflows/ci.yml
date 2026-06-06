@@ -1,0 +1,99 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-and-build:
+    name: Lint & Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build CLI
+        run: pnpm --filter devskills build
+
+      - name: Build web
+        run: pnpm --filter web build
+
+  validate-catalog:
+    name: Validate catalog
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Validate skill frontmatter
+        run: |
+          node --input-type=module << 'EOF'
+          import { readFileSync, readdirSync, existsSync } from 'node:fs';
+          import { join } from 'node:path';
+
+          const CONTENT = './content';
+          let errors = 0;
+
+          // Validate skills
+          const skillsDir = join(CONTENT, 'skills');
+          for (const tech of readdirSync(skillsDir)) {
+            const techDir = join(skillsDir, tech);
+            for (const file of readdirSync(techDir).filter(f => f.endsWith('.md'))) {
+              const content = readFileSync(join(techDir, file), 'utf8');
+              const match = content.match(/^---\n([\s\S]*?)\n---/);
+              if (!match) { console.error(`❌ skills/${tech}/${file}: sin frontmatter`); errors++; continue; }
+              const fm = match[1];
+              for (const field of ['title', 'description']) {
+                if (!fm.includes(`${field}:`)) {
+                  console.error(`❌ skills/${tech}/${file}: falta campo '${field}'`);
+                  errors++;
+                }
+              }
+            }
+          }
+
+          // Validate MCPs
+          const mcpsDir = join(CONTENT, 'mcps');
+          for (const file of readdirSync(mcpsDir).filter(f => f.endsWith('.md'))) {
+            const content = readFileSync(join(mcpsDir, file), 'utf8');
+            const match = content.match(/^---\n([\s\S]*?)\n---/);
+            if (!match) { console.error(`❌ mcps/${file}: sin frontmatter`); errors++; continue; }
+            const fm = match[1];
+            for (const field of ['title', 'description', 'repo', 'install', 'clients']) {
+              if (!fm.includes(`${field}:`)) {
+                console.error(`❌ mcps/${file}: falta campo obligatorio '${field}'`);
+                errors++;
+              }
+            }
+            // Validate repo is a GitHub URL
+            const repoMatch = fm.match(/repo:\s*"(.+?)"/);
+            if (repoMatch && !repoMatch[1].startsWith('https://github.com/')) {
+              console.error(`❌ mcps/${file}: 'repo' debe ser una URL de GitHub`);
+              errors++;
+            }
+          }
+
+          if (errors > 0) {
+            console.error(`\n${errors} error(s) encontrados en el catálogo.`);
+            process.exit(1);
+          }
+          console.log('✅ Catálogo validado correctamente.');
+          EOF

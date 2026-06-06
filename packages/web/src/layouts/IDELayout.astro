@@ -1,0 +1,450 @@
+---
+import { getTechnologies, getMCPs } from '../utils/catalog';
+import Icon from '../components/Icon.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  canonicalURL?: string;
+  type?: 'website' | 'article';
+  currentPath?: string;
+}
+
+const {
+  title = 'DevSkills',
+  description = 'Skills y MCPs curados para developers. Navega, aprende y copia skills directamente a tu agente IA.',
+  image = 'https://IamBlack0.github.io/devskills/favicon.svg',
+  canonicalURL,
+  type = 'website',
+  currentPath = '',
+} = Astro.props;
+const techs = getTechnologies();
+const mcps  = getMCPs();
+const totalSkills = techs.reduce((a, t) => a + t.skillCount, 0);
+const base  = import.meta.env.BASE_URL;
+const site  = 'https://IamBlack0.github.io/devskills';
+const url   = canonicalURL ?? `${site}/${currentPath}`;
+const ogImage = image.startsWith('http') ? image : `${site}${image}`;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} — DevSkills</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
+    <link rel="canonical" href={url} />
+    <meta name="theme-color" content="#1e1e1e" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={`${title} — DevSkills`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={url} />
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content="DevSkills" />
+    <meta property="og:locale" content="es_ES" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={`${title} — DevSkills`} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "DevSkills",
+      "url": site,
+      "description": description,
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": `${site}/?q={search_term_string}`
+        },
+        "query-input": "required name=search_term_string"
+      }
+    })} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/styles/vs2015.min.css" />
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  </head>
+
+  <body
+    class="bg-ide-bg text-ide-text font-mono h-screen flex flex-col overflow-hidden"
+    x-data="{ sidebar: false }"
+    @keydown.escape="sidebar = false"
+  >
+
+    <!-- Title Bar -->
+    <header class="flex items-center justify-between px-3 py-1.5 bg-ide-sidebar border-b border-ide-border select-none shrink-0">
+      <div class="flex items-center gap-3">
+        <!-- Botón hamburger (solo mobile) -->
+        <button
+          class="md:hidden flex items-center justify-center w-6 h-6 text-ide-textDim hover:text-ide-text transition-colors"
+          @click="sidebar = !sidebar"
+          aria-label="Menú"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" x2="20" y1="6" y2="6"/>
+            <line x1="4" x2="20" y1="12" y2="12"/>
+            <line x1="4" x2="20" y1="18" y2="18"/>
+          </svg>
+        </button>
+
+        <!-- Traffic lights (solo desktop) -->
+        <div class="hidden md:flex gap-1.5">
+          <span class="w-3 h-3 rounded-full bg-red-500 opacity-80"></span>
+          <span class="w-3 h-3 rounded-full bg-yellow-500 opacity-80"></span>
+          <span class="w-3 h-3 rounded-full bg-green-500 opacity-80"></span>
+        </div>
+
+        <!-- Logo -->
+        <a href={base} class="flex items-center gap-1.5 text-ide-accent hover:text-ide-text transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="16 18 22 12 16 6"/>
+            <polyline points="8 6 2 12 8 18"/>
+          </svg>
+          <span class="text-xs font-semibold">DevSkills</span>
+        </a>
+      </div>
+
+      <div class="flex items-center gap-3 text-xs text-ide-textDim">
+        <a
+          href="https://github.com/IamBlack0/devskills"
+          target="_blank"
+          rel="noopener"
+          class="hover:text-ide-text transition-colors flex items-center gap-1"
+        >
+          GitHub <Icon name="external-link" size={10} />
+        </a>
+      </div>
+    </header>
+
+    <!-- Tab Bar con nav fija -->
+    <div class="flex items-center bg-ide-tabs border-b border-ide-border shrink-0 overflow-x-auto">
+      <!-- Nav siempre visible -->
+      <div class="flex items-center shrink-0 border-r border-ide-border divide-x divide-ide-border">
+        <a
+          href={base}
+          class="flex items-center gap-1.5 px-3 py-2 text-xs text-ide-textDim hover:text-ide-text hover:bg-white/5 transition-colors"
+          title="Inicio"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+          <span>Inicio</span>
+        </a>
+        <a
+          href={`${base}/skills/react`}
+          class="flex items-center gap-1.5 px-3 py-2 text-xs text-ide-textDim hover:text-ide-accent hover:bg-white/5 transition-colors"
+          title="Skills"
+        >
+          <Icon name="folder" size={12} />
+          <span>Skills</span>
+        </a>
+        <a
+          href={`${base}/mcps`}
+          class="flex items-center gap-1.5 px-3 py-2 text-xs text-ide-textDim hover:text-ide-accentSecondary hover:bg-white/5 transition-colors"
+          title="MCPs"
+        >
+          <Icon name="package" size={12} />
+          <span>MCPs</span>
+        </a>
+      </div>
+
+      <!-- File tabs (de cada página) -->
+      <div class="flex overflow-x-auto flex-1 min-w-0">
+        <slot name="tabs" />
+      </div>
+
+      <!-- Ctrl+K -->
+      <button class="px-2.5 py-2 text-xs text-ide-textMuted hover:text-ide-textDim transition-colors flex items-center gap-1 shrink-0" id="search-trigger">
+        <Icon name="search" size={11} />
+        <span class="hidden sm:inline border border-ide-border rounded px-1 py-0.5">Ctrl+K</span>
+      </button>
+    </div>
+
+    <!-- Main: sidebar + content -->
+    <div class="flex flex-1 overflow-hidden relative">
+
+      <!-- Backdrop mobile -->
+      <div
+        class="md:hidden fixed inset-0 bg-black/50 z-20"
+        x-show="sidebar"
+        x-transition:enter="transition duration-150"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="transition duration-150"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        @click="sidebar = false"
+      ></div>
+
+      <!-- Sidebar -->
+      <aside
+        class="w-52 bg-ide-sidebar border-r border-ide-border flex flex-col shrink-0 overflow-y-auto
+               fixed md:static inset-y-0 left-0 z-30 h-full
+               transition-transform duration-200"
+        :class="sidebar ? 'translate-x-0' : '-translate-x-full md:translate-x-0'"
+      >
+        <div class="px-2 pt-3 pb-1 text-[10px] text-ide-textMuted uppercase tracking-widest font-medium">
+          Explorer
+        </div>
+
+        <!-- Skills tree -->
+        <div x-data="{ open: true }">
+          <button
+            class="flex items-center gap-1.5 w-full px-2 py-1 text-xs text-ide-text hover:bg-white/5 transition-colors"
+            @click="open = !open"
+          >
+            <span class="inline-flex transition-transform" :class="open ? 'rotate-90' : ''">
+              <Icon name="chevron-right" size={10} class="text-ide-textDim" />
+            </span>
+            <Icon name="folder" size={12} class="text-ide-accent" />
+            <span class="font-medium">skills</span>
+          </button>
+
+          <div x-show="open" x-collapse>
+            {techs.map(tech => (
+              <details class="group">
+                <summary class="flex items-center gap-1.5 px-4 py-0.5 text-xs text-ide-textDim hover:bg-white/5 cursor-pointer list-none transition-colors">
+                  <span class="inline-flex group-open:rotate-90 transition-transform">
+                    <Icon name="chevron-right" size={10} />
+                  </span>
+                  {tech.svgUrl
+                    ? <img src={tech.svgUrl} width="12" height="12" alt={tech.label} class="shrink-0" loading="lazy" />
+                    : <span class="text-[10px] font-bold">{tech.icon}</span>
+                  }
+                  <span class="hover:text-ide-text truncate">{tech.id}</span>
+                  <span class="ml-auto text-ide-textMuted text-[10px]">{tech.skillCount}</span>
+                </summary>
+                <div class="pl-8">
+                  <a
+                    href={`${base}/skills/${tech.id}`}
+                    class="block py-0.5 text-xs text-ide-textDim hover:text-ide-accent transition-colors"
+                    @click="sidebar = false"
+                  >
+                    <span class="text-[9px] mr-1">›</span>ver todos...
+                  </a>
+                </div>
+              </details>
+            ))}
+          </div>
+        </div>
+
+        <!-- MCPs tree -->
+        <div class="mt-2" x-data="{ open: true }">
+          <button
+            class="flex items-center gap-1.5 w-full px-2 py-1 text-xs text-ide-text hover:bg-white/5 transition-colors"
+            @click="open = !open"
+          >
+            <span class="inline-flex transition-transform" :class="open ? 'rotate-90' : ''">
+              <Icon name="chevron-right" size={10} class="text-ide-textDim" />
+            </span>
+            <Icon name="package" size={12} class="text-ide-accentSecondary" />
+            <span class="font-medium">mcps</span>
+          </button>
+
+          <div x-show="open" x-collapse>
+            {mcps.map(mcp => (
+              <a
+                href={`${base}/mcps/${mcp.id}`}
+                class={`flex items-center gap-1.5 px-5 py-0.5 text-xs transition-colors
+                  ${currentPath.includes(mcp.id)
+                    ? 'text-ide-accentSecondary bg-white/5'
+                    : 'text-ide-textDim hover:text-ide-text hover:bg-white/5'}`}
+                @click="sidebar = false"
+              >
+                <span class="text-[9px]">›</span>
+                <img src="https://cdn.simpleicons.org/modelcontextprotocol/white" width="10" height="10" alt="MCP" class="shrink-0" />
+                <span class="truncate">{mcp.id}.md</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </aside>
+
+      <!-- Content -->
+      <main class="flex-1 overflow-y-auto w-full">
+        <slot />
+      </main>
+    </div>
+
+    <!-- Status Bar -->
+    <footer class="flex items-center justify-between px-3 py-1 bg-ide-statusBg text-ide-statusText text-xs shrink-0">
+      <div class="flex items-center gap-2 min-w-0">
+        <Icon name="git-branch" size={11} />
+        <span>main</span>
+        <span class="opacity-40">|</span>
+        <span class="truncate text-[10px]">{currentPath || 'inicio'}</span>
+      </div>
+      <div class="flex items-center gap-3 shrink-0 opacity-90">
+        <span class="hidden sm:flex items-center gap-1">
+          <Icon name="terminal" size={10} />
+          {totalSkills} skills
+        </span>
+        <span class="hidden sm:flex items-center gap-1">
+          <Icon name="package" size={10} />
+          {mcps.length} MCPs
+        </span>
+        <span class="hidden md:block">UTF-8</span>
+      </div>
+    </footer>
+
+    <!-- Search Palette -->
+    <div
+      id="search-palette"
+      class="hidden fixed inset-0 bg-black/60 z-50 flex items-start justify-center pt-[10vh] px-4"
+      onclick="if(event.target===this) closePalette()"
+    >
+      <div class="w-full max-w-xl bg-ide-sidebar border border-ide-border rounded-lg shadow-2xl overflow-hidden">
+        <div class="flex items-center gap-2 px-4 py-3 border-b border-ide-border">
+          <span class="text-ide-textDim flex items-center shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          </span>
+          <input
+            id="search-input"
+            type="text"
+            placeholder="Buscar skills y MCPs..."
+            class="flex-1 bg-transparent text-ide-text placeholder-ide-textDim outline-none text-sm min-w-0"
+            oninput="filterResults(this.value)"
+          />
+          <kbd class="text-ide-textMuted text-xs border border-ide-border rounded px-1 shrink-0">Esc</kbd>
+        </div>
+        <div id="search-results" class="max-h-72 overflow-y-auto py-2"></div>
+      </div>
+    </div>
+
+    <script>
+      interface SearchItem { title: string; href: string; type: string; hint: string; }
+
+      const allItems: SearchItem[] = [
+        ...document.querySelectorAll<HTMLAnchorElement>('[data-search]'),
+      ].map(el => ({
+        title: el.dataset.searchTitle ?? el.textContent?.trim() ?? '',
+        href: el.href,
+        type: el.dataset.searchType ?? 'skill',
+        hint: el.dataset.searchHint ?? '',
+      }));
+
+      function openPalette() {
+        const palette = document.getElementById('search-palette');
+        const input = document.getElementById('search-input') as HTMLInputElement;
+        if (palette) palette.classList.remove('hidden');
+        if (input) { input.value = ''; input.focus(); filterResults(''); }
+      }
+      function closePalette() {
+        document.getElementById('search-palette')?.classList.add('hidden');
+      }
+
+      const fileIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>`;
+      const botIcon  = `<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M13.85 0a4.16 4.16 0 0 0-2.95 1.217L1.456 10.66a.835.835 0 0 0 0 1.18.835.835 0 0 0 1.18 0l9.442-9.442a2.49 2.49 0 0 1 3.541 0 2.49 2.49 0 0 1 0 3.541L8.59 12.97l-.1.1a.835.835 0 0 0 0 1.18.835.835 0 0 0 1.18 0l.1-.098 7.03-7.034a2.49 2.49 0 0 1 3.542 0l.049.05a2.49 2.49 0 0 1 0 3.54l-8.54 8.54a1.96 1.96 0 0 0 0 2.755l1.753 1.753a.835.835 0 0 0 1.18 0 .835.835 0 0 0 0-1.18l-1.753-1.753a.266.266 0 0 1 0-.394l8.54-8.54a4.185 4.185 0 0 0 0-5.9l-.05-.05a4.16 4.16 0 0 0-2.95-1.218c-.2 0-.401.02-.6.048a4.17 4.17 0 0 0-1.17-3.552A4.16 4.16 0 0 0 13.85 0m0 3.333a.84.84 0 0 0-.59.245L6.275 10.56a4.186 4.186 0 0 0 0 5.902 4.186 4.186 0 0 0 5.902 0L19.16 9.48a.835.835 0 0 0 0-1.18.835.835 0 0 0-1.18 0l-6.985 6.984a2.49 2.49 0 0 1-3.54 0 2.49 2.49 0 0 1 0-3.54l6.983-6.985a.835.835 0 0 0 0-1.18.84.84 0 0 0-.59-.245"/></svg>`;
+
+      function filterResults(query: string) {
+        const results = document.getElementById('search-results');
+        if (!results) return;
+        const q = query.toLowerCase();
+        const items = allItems.filter(i =>
+          !q || i.title.toLowerCase().includes(q) || i.hint.toLowerCase().includes(q)
+        ).slice(0, 12);
+
+        results.innerHTML = items.length
+          ? items.map(i => `
+              <a href="${i.href}" class="flex items-center gap-3 px-4 py-2 hover:bg-white/5 text-sm text-ide-text transition-colors" onclick="closePalette()">
+                <span class="text-ide-textDim shrink-0">${i.type === 'mcp' ? botIcon : fileIcon}</span>
+                <span class="truncate">${i.title}</span>
+                <span class="ml-auto text-xs text-ide-textMuted shrink-0">${i.hint}</span>
+              </a>`).join('')
+          : '<p class="px-4 py-3 text-sm text-ide-textDim">Sin resultados</p>';
+      }
+
+      document.getElementById('search-trigger')?.addEventListener('click', openPalette);
+      document.addEventListener('keydown', (e: KeyboardEvent) => {
+        if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openPalette(); }
+        if (e.key === 'Escape') closePalette();
+      });
+
+      // Botones copiar en bloques de código
+      document.querySelectorAll<HTMLPreElement>('.prose-ide pre').forEach(pre => {
+        const wrapper = document.createElement('div');
+        wrapper.style.cssText = 'position:relative';
+        pre.parentNode!.insertBefore(wrapper, pre);
+        wrapper.appendChild(pre);
+        const btn = document.createElement('button');
+        btn.className = 'code-copy-btn';
+        btn.textContent = 'Copiar';
+        wrapper.appendChild(btn);
+        btn.addEventListener('click', async () => {
+          const code = pre.querySelector('code')?.innerText ?? pre.innerText;
+          await navigator.clipboard.writeText(code);
+          btn.textContent = 'OK';
+          setTimeout(() => { btn.textContent = 'Copiar'; }, 2000);
+        });
+      });
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  * { box-sizing: border-box; }
+  details summary::-webkit-details-marker { display: none; }
+
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #3d3d3d; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #555; }
+
+  /* prose-ide — markdown content */
+  .prose-ide h1 { color: #4fc1ff; font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #3d3d3d; }
+  .prose-ide h2 { color: #c586c0; font-size: 1.05rem; font-weight: 600; margin-top: 1.75rem; margin-bottom: 0.75rem; }
+  .prose-ide h3 { color: #9cdcfe; font-size: 0.9rem; font-weight: 600; margin-top: 1.25rem; margin-bottom: 0.5rem; }
+  .prose-ide p  { color: #d4d4d4; line-height: 1.75; margin-bottom: 0.75rem; font-size: 0.85rem; }
+  .prose-ide ul { list-style: none; padding-left: 0; margin-bottom: 0.75rem; }
+  .prose-ide ul li { display: flex; gap: 0.5rem; color: #d4d4d4; font-size: 0.85rem; line-height: 1.65; padding: 0.1rem 0; }
+  .prose-ide ul li::before { content: '›'; color: #569cd6; flex-shrink: 0; }
+  .prose-ide ol { list-style: decimal; padding-left: 1.25rem; margin-bottom: 0.75rem; }
+  .prose-ide ol li { color: #d4d4d4; font-size: 0.85rem; line-height: 1.65; padding: 0.1rem 0; }
+  .prose-ide a  { color: #4fc1ff; text-decoration: none; }
+  .prose-ide a:hover { text-decoration: underline; }
+  .prose-ide strong { color: #dcdcaa; font-weight: 600; }
+  .prose-ide em    { color: #ce9178; font-style: italic; }
+  .prose-ide code  { background: #2d2d2d; color: #ce9178; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.78rem; font-family: inherit; }
+  .prose-ide pre   { background: #1a1a1a; border: 1px solid #3d3d3d; border-radius: 6px; padding: 1rem; margin: 1rem 0; overflow-x: auto; }
+  .prose-ide pre code { background: none; color: #d4d4d4; padding: 0; font-size: 0.78rem; }
+  .prose-ide blockquote { border-left: 3px solid #569cd6; margin: 1rem 0; padding: 0.5rem 1rem; color: #858585; font-style: italic; }
+
+  /* Tablas */
+  .prose-ide table  { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.8rem; }
+  .prose-ide thead tr { background: #252526; }
+  .prose-ide th { color: #9cdcfe; padding: 0.45rem 0.85rem; text-align: left; border: 1px solid #3d3d3d; font-weight: 600; }
+  .prose-ide td { padding: 0.35rem 0.85rem; border: 1px solid #3d3d3d; color: #d4d4d4; }
+  .prose-ide tbody tr:nth-child(even) td { background: #252525; }
+  .prose-ide tbody tr:hover td { background: #2a2a2a; }
+
+  /* Botón copiar en código */
+  .code-copy-btn {
+    position: absolute; top: 0.5rem; right: 0.5rem;
+    padding: 0.15rem 0.5rem; font-size: 0.68rem; font-family: inherit;
+    color: #858585; background: #252526; border: 1px solid #3d3d3d;
+    border-radius: 3px; cursor: pointer; opacity: 0;
+    transition: opacity 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .code-copy-btn:hover { color: #4fc1ff; border-color: #4fc1ff; }
+  div:hover > .code-copy-btn { opacity: 1; }
+
+  /* Highlight.js override */
+  .prose-ide pre .hljs      { background: transparent !important; padding: 0 !important; }
+  .prose-ide pre code.hljs  { background: none !important; padding: 0; font-size: 0.78rem; }
+
+  [x-cloak] { display: none !important; }
+</style>

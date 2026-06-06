@@ -1,0 +1,63 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+.astro/
+
+# Environment variables — NUNCA subir
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+*.env
+
+# MCP config files generados por el instalador de devskills
+# (se escriben en el directorio del proyecto del usuario)
+.mcp.json
+.cursor/mcp.json
+.cursor/
+
+# npm / pnpm artifacts
+*.tgz
+.pnpm-store/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/settings.json
+.vscode/*.code-workspace
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Astro / web
+packages/web/.vercel/
+packages/web/.netlify/
+
+# Temp files del workflow de discovery
+mcp-candidates.json
+
+# Keys / tokens — nunca subir
+*.key
+*.pem
+*.p12
+*.pfx

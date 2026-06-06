@@ -1,0 +1,84 @@
+---
+import IDELayout from '../layouts/IDELayout.astro';
+import Icon from '../components/Icon.astro';
+import { getTechnologies, getMCPs } from '../utils/catalog';
+
+const techs = getTechnologies();
+const mcps  = getMCPs();
+const base  = import.meta.env.BASE_URL;
+const totalSkills = techs.reduce((a, t) => a + t.skillCount, 0);
+---
+
+<IDELayout title="Inicio" description="Skills y MCPs curados para developers. Explora React, Next.js, TypeScript, Node.js, Python, Claude Code y más herramientas para agentes IA." currentPath="">
+  <slot slot="tabs">
+    <div class="flex items-center gap-1.5 px-4 py-2 bg-ide-tabActive border-r border-ide-border text-xs text-ide-text border-t-2 border-t-ide-accent">
+      <Icon name="file" size={11} class="text-ide-textDim" />
+      <span>Welcome</span>
+    </div>
+  </slot>
+
+  <div class="p-6 sm:p-8 max-w-3xl mx-auto">
+    <!-- Hero -->
+    <div class="mb-8">
+      <div class="text-ide-textDim text-xs mb-2">// Bienvenido a</div>
+      <h1 class="text-3xl sm:text-4xl font-bold text-ide-accent mb-3">DevSkills</h1>
+      <p class="text-ide-textDim text-sm leading-relaxed max-w-lg">
+        Skills y MCPs curados para developers. Navega el explorador
+        o usa <kbd class="bg-ide-tabs border border-ide-border rounded px-1 text-xs">Ctrl+K</kbd> para buscar.
+      </p>
+
+      <!-- npx command -->
+      <div class="mt-5 bg-ide-tabs border border-ide-border rounded-lg px-4 py-3 flex items-center gap-3">
+        <span class="text-ide-comment select-none text-xs">$</span>
+        <code class="text-ide-string text-sm flex-1">npx devskills</code>
+        <button
+          onclick="navigator.clipboard.writeText('npx devskills').then(() => { this.textContent = 'OK'; setTimeout(() => this.textContent = 'Copiar', 2000) })"
+          class="text-xs text-ide-textDim hover:text-ide-text border border-ide-border rounded px-2 py-1 transition-colors shrink-0"
+        >Copiar</button>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="grid grid-cols-2 gap-3 mb-8">
+      <div class="bg-ide-sidebar border border-ide-border rounded-lg p-4">
+        <div class="text-ide-accent text-[10px] uppercase tracking-widest mb-1">skills</div>
+        <div class="text-2xl font-bold text-ide-text">{totalSkills}</div>
+        <div class="text-ide-textDim text-xs">disponibles</div>
+      </div>
+      <div class="bg-ide-sidebar border border-ide-border rounded-lg p-4">
+        <div class="text-ide-accentSecondary text-[10px] uppercase tracking-widest mb-1">mcps</div>
+        <div class="text-2xl font-bold text-ide-text">{mcps.length}</div>
+        <div class="text-ide-textDim text-xs">curados</div>
+      </div>
+    </div>
+
+    <!-- Technologies -->
+    <section class="mb-8">
+      <h2 class="text-ide-textDim text-[10px] uppercase tracking-widest mb-4">// Tecnologías</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {techs.map(tech => (
+          <a
+            href={`${base}/skills/${tech.id}`}
+            class="group bg-ide-sidebar border border-ide-border rounded-lg p-4 hover:border-ide-accent transition-colors"
+            data-search
+            data-search-title={tech.label}
+            data-search-type="skill"
+            data-search-hint={`${tech.skillCount} skills`}
+          >
+            <div class="flex items-center gap-2.5 mb-2">
+              {tech.svgUrl
+                ? <img src={tech.svgUrl} width="18" height="18" alt={tech.label} class="shrink-0" loading="lazy" />
+                : <span class="font-bold text-ide-textDim text-sm">{tech.icon}</span>
+              }
+              <span class="font-medium text-ide-text group-hover:text-ide-accent transition-colors">{tech.label}</span>
+              <span class="ml-auto text-xs text-ide-comment">{tech.skillCount}</span>
+            </div>
+            <div class="text-xs text-ide-textDim line-clamp-2">{tech.description}</div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+
+  </div>
+</IDELayout>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://IamBlack0.github.io/devskills/sitemap-index.xml

@@ -1,0 +1,14 @@
+{
+  "name": "devskills-root",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint",
+    "dev:web": "pnpm --filter web dev",
+    "dev:cli": "pnpm --filter devskills build --watch"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  }
+}

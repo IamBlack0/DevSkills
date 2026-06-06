@@ -1,0 +1,72 @@
+---
+import IDELayout from '../../layouts/IDELayout.astro';
+import { getTechnologies, getSkillsForTech } from '../../utils/catalog';
+import type { GetStaticPaths } from 'astro';
+
+export const getStaticPaths: GetStaticPaths = () => {
+  const techs = getTechnologies();
+  return techs.map(t => ({ params: { tech: t.id }, props: { tech: t } }));
+};
+
+const { tech } = Astro.props;
+const skills = getSkillsForTech(tech.id);
+const base = import.meta.env.BASE_URL;
+---
+
+<IDELayout title={tech.label} description={tech.description} currentPath={`skills/${tech.id}`}>
+  <slot slot="tabs">
+    <a
+      href={`${base}/skills/${tech.id}`}
+      class="flex items-center gap-2 px-4 py-2 bg-ide-tabActive border-r border-ide-border text-xs text-ide-text border-t-2 border-t-ide-accent"
+    >
+      <span>{tech.icon}</span>
+      <span>{tech.id}/</span>
+    </a>
+  </slot>
+
+  <div class="p-6 max-w-2xl">
+    <div class="flex items-center gap-2 mb-6">
+      {tech.svgUrl
+        ? <img src={tech.svgUrl} width="22" height="22" alt={tech.label} class="shrink-0" loading="lazy" />
+        : <span class="text-2xl">{tech.icon}</span>
+      }
+      <h1 class="text-xl font-bold text-ide-accent">{tech.label}</h1>
+      <span class="text-xs text-ide-textDim ml-2 bg-ide-sidebar border border-ide-border rounded px-2 py-0.5">
+        {skills.length} skills
+      </span>
+    </div>
+
+    <p class="text-ide-textDim text-sm mb-8">{tech.description}</p>
+
+    <div class="space-y-2">
+      {skills.map(skill => (
+        <a
+          href={`${base}/skills/${tech.id}/${skill.id}`}
+          class="group block bg-ide-sidebar border border-ide-border rounded-lg px-4 py-3 hover:border-ide-accent transition-colors"
+          data-search
+          data-search-title={skill.title}
+          data-search-type="skill"
+          data-search-hint={tech.label}
+        >
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-ide-textDim text-xs">📄</span>
+            <span class="text-sm font-medium text-ide-text group-hover:text-ide-accent transition-colors">
+              {skill.id}.md
+            </span>
+          </div>
+          <div class="text-xs text-ide-textDim ml-5">{skill.title}</div>
+          <div class="text-xs text-ide-textMuted ml-5 mt-0.5 truncate">{skill.description}</div>
+          {skill.tags.length > 0 && (
+            <div class="flex gap-1 mt-2 ml-5 flex-wrap">
+              {skill.tags.map(tag => (
+                <span class="text-[10px] bg-ide-tabs border border-ide-border rounded px-1.5 text-ide-comment">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
+        </a>
+      ))}
+    </div>
+  </div>
+</IDELayout>
