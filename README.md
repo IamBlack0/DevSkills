@@ -3,14 +3,14 @@
 One command. Your AI agent skills and MCP servers, curated.
 
 ```
-npx devskills
+npx devskills-cli
 ```
 
 Browse and install a curated catalog of skills and MCP servers directly from your terminal. Skills install into your project and are read automatically by most AI agents. MCPs include their source repository so you can verify them before installing anything.
 
 ## How it works
 
-1. Run `npx devskills` in any directory
+1. Run `npx devskills-cli` in any directory
 2. Select **Skills** to browse by technology, or **MCPs** to discover agent tools
 3. Install a skill → it lands in `.agents/skills/` (universal) and optionally in your specific agent's folder
 4. Install an MCP → it writes the config directly to your client (Claude Code, Cursor, or Windsurf)

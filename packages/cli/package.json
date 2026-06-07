@@ -1,5 +1,5 @@
 {
-  "name": "devskills",
+  "name": "devskills-cli",
   "version": "1.0.2",
   "description": "Skills & MCPs para tu terminal — navega, aprende y copia",
   "type": "module",
