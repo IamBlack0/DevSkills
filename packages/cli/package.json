@@ -1,6 +1,6 @@
 {
   "name": "devskills",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Skills & MCPs para tu terminal — navega, aprende y copia",
   "type": "module",
   "main": "./dist/index.cjs",
