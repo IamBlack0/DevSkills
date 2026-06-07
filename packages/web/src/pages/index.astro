@@ -5,7 +5,7 @@ import { getTechnologies, getMCPs } from '../utils/catalog';
 
 const techs = getTechnologies();
 const mcps  = getMCPs();
-const base  = import.meta.env.BASE_URL;
+const base  = import.meta.env.BASE_URL.replace(/\/$/, '');
 const totalSkills = techs.reduce((a, t) => a + t.skillCount, 0);
 ---
 

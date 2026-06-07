@@ -16,7 +16,7 @@ export const getStaticPaths: GetStaticPaths = () => {
 };
 
 const { skill, tech } = Astro.props;
-const base = import.meta.env.BASE_URL;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const htmlContent = renderMarkdown(skill.content);
 ---

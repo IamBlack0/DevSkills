@@ -5,6 +5,5 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   output: 'static',
   integrations: [tailwind(), sitemap()],
-  site: process.env.SITE || 'https://IamBlack0.github.io',
-  base: process.env.BASE_PATH || '/devskills',
+  site: process.env.SITE || 'https://devskills.vercel.app',
 });

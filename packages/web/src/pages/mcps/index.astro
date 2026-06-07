@@ -3,7 +3,7 @@ import IDELayout from '../../layouts/IDELayout.astro';
 import { getMCPs } from '../../utils/catalog';
 
 const mcps = getMCPs();
-const base = import.meta.env.BASE_URL;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const clientFilters = ['todos', 'claude-code', 'cursor', 'vscode', 'opencode'];
 const categoryFilters = [...new Set(mcps.map(m => m.category))];

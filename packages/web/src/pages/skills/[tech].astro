@@ -10,7 +10,7 @@ export const getStaticPaths: GetStaticPaths = () => {
 
 const { tech } = Astro.props;
 const skills = getSkillsForTech(tech.id);
-const base = import.meta.env.BASE_URL;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <IDELayout title={tech.label} description={tech.description} currentPath={`skills/${tech.id}`}>
