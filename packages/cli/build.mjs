@@ -9,9 +9,9 @@ await build({
   bundle: true,
   platform: 'node',
   format: 'cjs',
-  outfile: 'dist/index.cjs',
+  outfile: 'dist/index.js',
   target: 'node18',
 });
 
 cpSync('../../content', 'dist/content', { recursive: true });
-console.log('dist/index.cjs + content/ ready');
+console.log('dist/index.js + content/ ready');
