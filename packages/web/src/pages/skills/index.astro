@@ -1,0 +1,39 @@
+---
+import IDELayout from '../../layouts/IDELayout.astro';
+import Icon from '../../components/Icon.astro';
+import { getTechnologies } from '../../utils/catalog';
+
+const techs = getTechnologies();
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<IDELayout title="Skills" description="Explora skills por tecnología — React, Next.js, TypeScript, Node.js, Python y Claude Code." currentPath="skills">
+  <slot slot="tabs">
+    <div class="flex items-center gap-1.5 px-4 py-2 bg-ide-tabActive border-r border-ide-border text-xs text-ide-text border-t-2 border-t-ide-accent">
+      <Icon name="folder" size={11} class="text-ide-textDim" />
+      <span>skills/</span>
+    </div>
+  </slot>
+
+  <div class="p-6 max-w-3xl">
+    <div class="text-ide-textDim text-[10px] uppercase tracking-widest mb-5">// Tecnologías</div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      {techs.map(tech => (
+        <a
+          href={`${base}/skills/${tech.id}`}
+          class="group bg-ide-sidebar border border-ide-border rounded-lg p-4 hover:border-ide-accent transition-colors"
+        >
+          <div class="flex items-center gap-2.5 mb-2">
+            {tech.svgUrl
+              ? <img src={tech.svgUrl} width="18" height="18" alt={tech.label} class="shrink-0" loading="lazy" />
+              : <span class="font-bold text-ide-textDim text-sm">{tech.icon}</span>
+            }
+            <span class="font-medium text-ide-text group-hover:text-ide-accent transition-colors">{tech.label}</span>
+            <span class="ml-auto text-xs text-ide-comment">{tech.skillCount}</span>
+          </div>
+          <div class="text-xs text-ide-textDim line-clamp-2">{tech.description}</div>
+        </a>
+      ))}
+    </div>
+  </div>
+</IDELayout>

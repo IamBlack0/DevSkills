@@ -33,7 +33,7 @@ const ogImage = image.startsWith('http') ? image : `${site}${image}`;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{title} â€” DevSkills</title>
+    <title>{title} — DevSkills</title>
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
     <link rel="canonical" href={url} />
@@ -41,7 +41,7 @@ const ogImage = image.startsWith('http') ? image : `${site}${image}`;
     <meta name="robots" content="index, follow" />
 
     <!-- Open Graph -->
-    <meta property="og:title" content={`${title} â€” DevSkills`} />
+    <meta property="og:title" content={`${title} — DevSkills`} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:url" content={url} />
@@ -51,7 +51,7 @@ const ogImage = image.startsWith('http') ? image : `${site}${image}`;
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={`${title} â€” DevSkills`} />
+    <meta name="twitter:title" content={`${title} — DevSkills`} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
@@ -87,11 +87,11 @@ const ogImage = image.startsWith('http') ? image : `${site}${image}`;
     <!-- Title Bar -->
     <header class="flex items-center justify-between px-3 py-1.5 bg-ide-sidebar border-b border-ide-border select-none shrink-0">
       <div class="flex items-center gap-3">
-        <!-- BotÃ³n hamburger (solo mobile) -->
+        <!-- Botón hamburger (solo mobile) -->
         <button
           class="md:hidden flex items-center justify-center w-6 h-6 text-ide-textDim hover:text-ide-text transition-colors"
           @click="sidebar = !sidebar"
-          aria-label="MenÃº"
+          aria-label="Menú"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="4" x2="20" y1="6" y2="6"/>
@@ -108,7 +108,7 @@ const ogImage = image.startsWith('http') ? image : `${site}${image}`;
         </div>
 
         <!-- Logo -->
-        <a href={base} class="flex items-center gap-1.5 text-ide-accent hover:text-ide-text transition-colors">
+        <a href={base || '/'} class="flex items-center gap-1.5 text-ide-accent hover:text-ide-text transition-colors">
           <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="16 18 22 12 16 6"/>
             <polyline points="8 6 2 12 8 18"/>
@@ -134,7 +134,7 @@ const ogImage = image.startsWith('http') ? image : `${site}${image}`;
       <!-- Nav siempre visible -->
       <div class="flex items-center shrink-0 border-r border-ide-border divide-x divide-ide-border">
         <a
-          href={base}
+          href={base || '/'}
           class="flex items-center gap-1.5 px-3 py-2 text-xs text-ide-textDim hover:text-ide-text hover:bg-white/5 transition-colors"
           title="Inicio"
         >
@@ -145,7 +145,7 @@ const ogImage = image.startsWith('http') ? image : `${site}${image}`;
           <span>Inicio</span>
         </a>
         <a
-          href={`${base}/skills/react`}
+          href={`${base}/skills`}
           class="flex items-center gap-1.5 px-3 py-2 text-xs text-ide-textDim hover:text-ide-accent hover:bg-white/5 transition-colors"
           title="Skills"
         >
@@ -162,7 +162,7 @@ const ogImage = image.startsWith('http') ? image : `${site}${image}`;
         </a>
       </div>
 
-      <!-- File tabs (de cada pÃ¡gina) -->
+      <!-- File tabs (de cada página) -->
       <div class="flex overflow-x-auto flex-1 min-w-0">
         <slot name="tabs" />
       </div>
@@ -234,7 +234,7 @@ const ogImage = image.startsWith('http') ? image : `${site}${image}`;
                     class="block py-0.5 text-xs text-ide-textDim hover:text-ide-accent transition-colors"
                     @click="sidebar = false"
                   >
-                    <span class="text-[9px] mr-1">â€º</span>ver todos...
+                    <span class="text-[9px] mr-1">›</span>ver todos...
                   </a>
                 </div>
               </details>
@@ -265,7 +265,7 @@ const ogImage = image.startsWith('http') ? image : `${site}${image}`;
                     : 'text-ide-textDim hover:text-ide-text hover:bg-white/5'}`}
                 @click="sidebar = false"
               >
-                <span class="text-[9px]">â€º</span>
+                <span class="text-[9px]">›</span>
                 <img src="https://cdn.simpleicons.org/modelcontextprotocol/white" width="10" height="10" alt="MCP" class="shrink-0" />
                 <span class="truncate">{mcp.id}.md</span>
               </a>
@@ -374,7 +374,7 @@ const ogImage = image.startsWith('http') ? image : `${site}${image}`;
         if (e.key === 'Escape') closePalette();
       });
 
-      // Botones copiar en bloques de cÃ³digo
+      // Botones copiar en bloques de código
       document.querySelectorAll<HTMLPreElement>('.prose-ide pre').forEach(pre => {
         const wrapper = document.createElement('div');
         wrapper.style.cssText = 'position:relative';
@@ -404,14 +404,14 @@ const ogImage = image.startsWith('http') ? image : `${site}${image}`;
   ::-webkit-scrollbar-thumb { background: #3d3d3d; border-radius: 3px; }
   ::-webkit-scrollbar-thumb:hover { background: #555; }
 
-  /* prose-ide â€” markdown content */
+  /* prose-ide — markdown content */
   .prose-ide h1 { color: #4fc1ff; font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #3d3d3d; }
   .prose-ide h2 { color: #c586c0; font-size: 1.05rem; font-weight: 600; margin-top: 1.75rem; margin-bottom: 0.75rem; }
   .prose-ide h3 { color: #9cdcfe; font-size: 0.9rem; font-weight: 600; margin-top: 1.25rem; margin-bottom: 0.5rem; }
   .prose-ide p  { color: #d4d4d4; line-height: 1.75; margin-bottom: 0.75rem; font-size: 0.85rem; }
   .prose-ide ul { list-style: none; padding-left: 0; margin-bottom: 0.75rem; }
   .prose-ide ul li { display: flex; gap: 0.5rem; color: #d4d4d4; font-size: 0.85rem; line-height: 1.65; padding: 0.1rem 0; }
-  .prose-ide ul li::before { content: 'â€º'; color: #569cd6; flex-shrink: 0; }
+  .prose-ide ul li::before { content: '›'; color: #569cd6; flex-shrink: 0; }
   .prose-ide ol { list-style: decimal; padding-left: 1.25rem; margin-bottom: 0.75rem; }
   .prose-ide ol li { color: #d4d4d4; font-size: 0.85rem; line-height: 1.65; padding: 0.1rem 0; }
   .prose-ide a  { color: #4fc1ff; text-decoration: none; }
@@ -431,7 +431,7 @@ const ogImage = image.startsWith('http') ? image : `${site}${image}`;
   .prose-ide tbody tr:nth-child(even) td { background: #252525; }
   .prose-ide tbody tr:hover td { background: #2a2a2a; }
 
-  /* BotÃ³n copiar en cÃ³digo */
+  /* Botón copiar en código */
   .code-copy-btn {
     position: absolute; top: 0.5rem; right: 0.5rem;
     padding: 0.15rem 0.5rem; font-size: 0.68rem; font-family: inherit;
