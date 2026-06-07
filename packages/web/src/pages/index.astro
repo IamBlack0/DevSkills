@@ -30,9 +30,9 @@ const totalSkills = techs.reduce((a, t) => a + t.skillCount, 0);
       <!-- npx command -->
       <div class="mt-5 bg-ide-tabs border border-ide-border rounded-lg px-4 py-3 flex items-center gap-3">
         <span class="text-ide-comment select-none text-xs">$</span>
-        <code class="text-ide-string text-sm flex-1">npx devskills</code>
+        <code class="text-ide-string text-sm flex-1">npx devskills-cli</code>
         <button
-          onclick="navigator.clipboard.writeText('npx devskills').then(() => { this.textContent = 'OK'; setTimeout(() => this.textContent = 'Copiar', 2000) })"
+          onclick="navigator.clipboard.writeText('npx devskills-cli').then(() => { this.textContent = 'OK'; setTimeout(() => this.textContent = 'Copiar', 2000) })"
           class="text-xs text-ide-textDim hover:text-ide-text border border-ide-border rounded px-2 py-1 transition-colors shrink-0"
         >Copiar</button>
       </div>

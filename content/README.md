@@ -83,7 +83,7 @@ MCPs are references to external tools that extend what AI agents can do. Each en
 To add a skill from an external repository:
 
 ```
-npx devskills add https://github.com/<owner>/<repo> --skill <skill-name>
+npx devskills-cli add https://github.com/<owner>/<repo> --skill <skill-name>
 ```
 
 To add a skill manually, create a `.md` file under the appropriate `skills/<tech>/` folder. The frontmatter must include `title` (or `name`) and `description`. The file will be installed as-is when selected from the CLI.

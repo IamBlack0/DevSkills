@@ -102,8 +102,8 @@ const STRINGS = {
     no_mcps:             'No se encontraron MCPs en el catalogo.',
     err_install:         'Error al instalar',
 
-    add_usage:           'Uso: npx devskills add <github-url> --skill <nombre>',
-    add_example:         'Ejemplo: npx devskills add https://github.com/anthropics/claude-code --skill frontend-design',
+    add_usage:           'Uso: npx devskills-cli add <github-url> --skill <nombre>',
+    add_example:         'Ejemplo: npx devskills-cli add https://github.com/anthropics/claude-code --skill frontend-design',
     add_specify:         'Especifica el nombre con --skill <nombre>',
     add_searching:       (skill: string, url: string) => `Buscando ${skill} en ${url.replace('https://', '')}...`,
     add_fetching:        (url: string) => `Descargando desde ${url}...`,
@@ -190,8 +190,8 @@ const STRINGS = {
     no_mcps:             'No MCPs found in the catalog.',
     err_install:         'Installation error',
 
-    add_usage:           'Usage: npx devskills add <github-url> --skill <name>',
-    add_example:         'Example: npx devskills add https://github.com/anthropics/claude-code --skill frontend-design',
+    add_usage:           'Usage: npx devskills-cli add <github-url> --skill <name>',
+    add_example:         'Example: npx devskills-cli add https://github.com/anthropics/claude-code --skill frontend-design',
     add_specify:         'Specify the skill name with --skill <name>',
     add_searching:       (skill: string, url: string) => `Searching for ${skill} in ${url.replace('https://', '')}...`,
     add_fetching:        (url: string) => `Fetching from ${url}...`,
