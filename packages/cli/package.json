@@ -3,28 +3,26 @@
   "version": "1.0.0",
   "description": "Skills & MCPs para tu terminal — navega, aprende y copia",
   "type": "module",
-  "main": "./dist/index.js",
+  "main": "./dist/index.cjs",
   "bin": {
-    "devskills": "./dist/index.js"
+    "devskills": "./dist/index.cjs"
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsc && node -e \"require('fs').cpSync('../../content','dist/content',{recursive:true}); console.log('content/ bundled into dist/');\"",
+    "build": "node build.mjs",
     "build:watch": "tsc --watch",
     "prepack": "pnpm build",
     "lint": "echo 'no linter configured'",
     "dev": "tsx src/index.ts"
   },
-  "dependencies": {
-    "@clack/prompts": "^0.9.1",
-    "gray-matter": "^4.0.3",
-    "open": "^10.1.0",
-    "picocolors": "^1.1.1"
-  },
   "devDependencies": {
+    "@clack/prompts": "^0.9.1",
     "@types/node": "^22.0.0",
+    "esbuild": "^0.24.0",
+    "gray-matter": "^4.0.3",
+    "picocolors": "^1.1.1",
     "tsx": "^4.19.2",
     "typescript": "^5.7.3"
   },

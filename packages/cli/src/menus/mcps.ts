@@ -1,6 +1,6 @@
 import * as p from '@clack/prompts';
 import pc from 'picocolors';
-import open from 'open';
+import { spawn } from 'node:child_process';
 import { writeFileSync, readFileSync, mkdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { homedir } from 'node:os';
@@ -145,7 +145,8 @@ export async function showMcpsMenu(lang: Lang): Promise<void> {
     if (action === 'open-repo') {
       if (mcp.repo) {
         p.log.info(mcp.repo);
-        await open(mcp.repo);
+        const cmd = process.platform === 'win32' ? 'start' : process.platform === 'darwin' ? 'open' : 'xdg-open';
+        spawn(cmd, [mcp.repo], { detached: true, stdio: 'ignore', shell: process.platform === 'win32' }).unref();
       } else {
         p.log.warn(i18n.no_repo);
       }
