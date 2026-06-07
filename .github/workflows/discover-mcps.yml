@@ -134,6 +134,7 @@ jobs:
               return !existing.has(id) && !existing.has(r.name.toLowerCase());
             })
             .sort((a, b) => b.stargazers_count - a.stargazers_count)
+            .slice(0, 10)
             .map(r => ({
               name: r.full_name,
               url: r.html_url,
