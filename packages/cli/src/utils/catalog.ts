@@ -1,12 +1,8 @@
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
-import { join, dirname } from 'node:path';
+import { join } from 'node:path';
 import matter from 'gray-matter';
 
-// Find content/ relative to the running binary, works in both bundle and dev
-const _bin = dirname(process.argv[1] ?? process.cwd());
-const CONTENT_DIR = (['content', '../dist/content', '../../content', '../../../content']
-  .map(r => join(_bin, r))
-  .find(p => existsSync(p))) ?? join(_bin, 'content');
+const CONTENT_DIR = join(__dirname, 'content');
 
 export interface TechMeta {
   id: string;

@@ -1,5 +1,6 @@
 ﻿---
 import { getTechnologies, getMCPs } from '../utils/catalog';
+import { detectLang, t, setLang, type I18nStrings } from '../utils/i18n';
 import Icon from '../components/Icon.astro';
 
 interface Props {
@@ -29,7 +30,7 @@ const ogImage = image.startsWith('http') ? image : `${site}${image}`;
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang="es" x-data="{ lang: 'es', i18n: {} }" x-init="initI18n()">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -75,6 +76,34 @@ const ogImage = image.startsWith('http') ? image : `${site}${image}`;
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/styles/vs2015.min.css" />
+    <script is:inline>
+      window.__devskillsStrings = {"es":{"welcome":"Bienvenido a","tagline":"Skills y MCPs curados para developers. Navega el explorador","or_use":"o usa","to_search":"para buscar.","skills":"Skills","mcps":"MCPs","disponibles":"disponibles","curados":"curados","tecnologias":"Tecnologías","copiar":"Copiar","copiado":"Copiado","buscando":"Buscando...","home":"Inicio","explorer":"Explorer","ver_todos":"ver todos...","search_placeholder":"Buscar skills y MCPs...","no_results":"Sin resultados","herramientas":"herramientas","cliente":"Cliente:","todos":"todos","repositorio":"Repositorio","autor":"Autor","clientes":"Clientes","instalacion":"Instalación:","repositorio":"Repositorio","cerrar":"Cerrar","repo_link":"repo","lang_es":"ES","lang_en":"EN","lang_tooltip":"Cambiar idioma","skills_dir":"skills/","mcps_dir":"mcps/","npx_cmd":"npx devskills-cli","ver_todos_html":"› ver todos..."},"en":{"welcome":"Welcome to","tagline":"Curated skills & MCPs for developers. Browse the explorer","or_use":"or use","to_search":"to search.","skills":"Skills","mcps":"MCPs","disponibles":"available","curados":"curated","tecnologias":"Technologies","copiar":"Copy","copiado":"Copied","buscando":"Searching...","home":"Home","explorer":"Explorer","ver_todos":"view all...","search_placeholder":"Search skills and MCPs...","no_results":"No results","herramientas":"tools","cliente":"Client:","todos":"all","repositorio":"Repository","autor":"Author","clientes":"Clients","instalacion":"Installation:","cerrar":"Close","repo_link":"repo","lang_es":"ES","lang_en":"EN","lang_tooltip":"Change language","skills_dir":"skills/","mcps_dir":"mcps/","npx_cmd":"npx devskills-cli","ver_todos_html":"› view all..."}};
+      (function() {
+        try {
+          var s = localStorage.getItem('devskills-lang');
+          if (s !== 'es' && s !== 'en') s = navigator.language.startsWith('es') ? 'es' : 'en';
+          window.__devskillsLang = s;
+        } catch(e) { window.__devskillsLang = 'es'; }
+      })();
+      window.__setLang = function(lang) {
+        try { localStorage.setItem('devskills-lang', lang); } catch(e) {}
+        window.__devskillsLang = lang;
+        document.documentElement.setAttribute('lang', lang);
+        document.querySelectorAll('[data-i18n]').forEach(function(el) {
+          var key = el.getAttribute('data-i18n');
+          if (key && window.__devskillsStrings[lang] && window.__devskillsStrings[lang][key] !== undefined) {
+            el.textContent = window.__devskillsStrings[lang][key];
+          }
+        });
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el) {
+          var key = el.getAttribute('data-i18n-placeholder');
+          if (key && window.__devskillsStrings[lang] && window.__devskillsStrings[lang][key] !== undefined) {
+            el.setAttribute('placeholder', window.__devskillsStrings[lang][key]);
+          }
+        });
+      };
+      window.__initI18n = function() { window.__setLang(window.__devskillsLang); };
+    </script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   </head>
 
@@ -118,6 +147,16 @@ const ogImage = image.startsWith('http') ? image : `${site}${image}`;
       </div>
 
       <div class="flex items-center gap-3 text-xs text-ide-textDim">
+        <button
+          onclick="__setLang(window.__devskillsLang === 'es' ? 'en' : 'es')"
+          class="hover:text-ide-text transition-colors text-xs px-1.5"
+          title={description.includes('Cambiar') ? 'Cambiar idioma' : 'Change language'}
+          data-i18n="lang_tooltip"
+        >
+          <span data-i18n="lang_es" class="tabular-nums">ES</span>
+          <span class="text-ide-textMuted">/</span>
+          <span data-i18n="lang_en" class="tabular-nums">EN</span>
+        </button>
         <a
           href="https://github.com/IamBlack0/devskills"
           target="_blank"
@@ -136,29 +175,29 @@ const ogImage = image.startsWith('http') ? image : `${site}${image}`;
         <a
           href={base || '/'}
           class="flex items-center gap-1.5 px-3 py-2 text-xs text-ide-textDim hover:text-ide-text hover:bg-white/5 transition-colors"
-          title="Inicio"
+          data-i18n="home"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
             <polyline points="9 22 9 12 15 12 15 22"/>
           </svg>
-          <span>Inicio</span>
+          <span data-i18n="home">Inicio</span>
         </a>
         <a
           href={`${base}/skills`}
           class="flex items-center gap-1.5 px-3 py-2 text-xs text-ide-textDim hover:text-ide-accent hover:bg-white/5 transition-colors"
-          title="Skills"
+          data-i18n="skills"
         >
           <Icon name="folder" size={12} />
-          <span>Skills</span>
+          <span data-i18n="skills">Skills</span>
         </a>
         <a
           href={`${base}/mcps`}
           class="flex items-center gap-1.5 px-3 py-2 text-xs text-ide-textDim hover:text-ide-accentSecondary hover:bg-white/5 transition-colors"
-          title="MCPs"
+          data-i18n="mcps"
         >
           <Icon name="package" size={12} />
-          <span>MCPs</span>
+          <span data-i18n="mcps">MCPs</span>
         </a>
       </div>
 
@@ -197,7 +236,7 @@ const ogImage = image.startsWith('http') ? image : `${site}${image}`;
                transition-transform duration-200"
         :class="sidebar ? 'translate-x-0' : '-translate-x-full md:translate-x-0'"
       >
-        <div class="px-2 pt-3 pb-1 text-[10px] text-ide-textMuted uppercase tracking-widest font-medium">
+        <div class="px-2 pt-3 pb-1 text-[10px] text-ide-textMuted uppercase tracking-widest font-medium" data-i18n="explorer">
           Explorer
         </div>
 
@@ -234,7 +273,7 @@ const ogImage = image.startsWith('http') ? image : `${site}${image}`;
                     class="block py-0.5 text-xs text-ide-textDim hover:text-ide-accent transition-colors"
                     @click="sidebar = false"
                   >
-                    <span class="text-[9px] mr-1">›</span>ver todos...
+                    <span class="text-[9px] mr-1">›</span><span data-i18n="ver_todos">ver todos...</span>
                   </a>
                 </div>
               </details>
@@ -286,7 +325,7 @@ const ogImage = image.startsWith('http') ? image : `${site}${image}`;
         <Icon name="git-branch" size={11} />
         <span>main</span>
         <span class="opacity-40">|</span>
-        <span class="truncate text-[10px]">{currentPath || 'inicio'}</span>
+        <span class="truncate text-[10px]" id="status-path">{currentPath || 'inicio'}</span>
       </div>
       <div class="flex items-center gap-3 shrink-0 opacity-90">
         <span class="hidden sm:flex items-center gap-1">
@@ -315,7 +354,7 @@ const ogImage = image.startsWith('http') ? image : `${site}${image}`;
           <input
             id="search-input"
             type="text"
-            placeholder="Buscar skills y MCPs..."
+            data-i18n-placeholder="search_placeholder" placeholder="Buscar skills y MCPs..."
             class="flex-1 bg-transparent text-ide-text placeholder-ide-textDim outline-none text-sm min-w-0"
             oninput="filterResults(this.value)"
           />
@@ -365,7 +404,7 @@ const ogImage = image.startsWith('http') ? image : `${site}${image}`;
                 <span class="truncate">${i.title}</span>
                 <span class="ml-auto text-xs text-ide-textMuted shrink-0">${i.hint}</span>
               </a>`).join('')
-          : '<p class="px-4 py-3 text-sm text-ide-textDim">Sin resultados</p>';
+          : '<p class="px-4 py-3 text-sm text-ide-textDim" data-i18n="no_results">Sin resultados</p>';
       }
 
       document.getElementById('search-trigger')?.addEventListener('click', openPalette);
@@ -391,6 +430,11 @@ const ogImage = image.startsWith('http') ? image : `${site}${image}`;
           setTimeout(() => { btn.textContent = 'Copiar'; }, 2000);
         });
       });
+
+      // Initialize i18n after DOM is ready
+      document.addEventListener('DOMContentLoaded', __initI18n);
+      // Also run immediately in case DOM is already loaded
+      if (document.readyState !== 'loading') __initI18n();
     </script>
   </body>
 </html>

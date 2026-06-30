@@ -20,11 +20,11 @@ const totalSkills = techs.reduce((a, t) => a + t.skillCount, 0);
   <div class="p-6 sm:p-8 max-w-3xl mx-auto">
     <!-- Hero -->
     <div class="mb-8">
-      <div class="text-ide-textDim text-xs mb-2">// Bienvenido a</div>
+      <div class="text-ide-textDim text-xs mb-2">// <span data-i18n="welcome">Bienvenido a</span></div>
       <h1 class="text-3xl sm:text-4xl font-bold text-ide-accent mb-3">DevSkills</h1>
       <p class="text-ide-textDim text-sm leading-relaxed max-w-lg">
-        Skills y MCPs curados para developers. Navega el explorador
-        o usa <kbd class="bg-ide-tabs border border-ide-border rounded px-1 text-xs">Ctrl+K</kbd> para buscar.
+        <span data-i18n="tagline">Skills y MCPs curados para developers. Navega el explorador</span>
+        <span data-i18n="or_use"> o usa</span> <kbd class="bg-ide-tabs border border-ide-border rounded px-1 text-xs">Ctrl+K</kbd> <span data-i18n="to_search">para buscar.</span>
       </p>
 
       <!-- npx command -->
@@ -32,29 +32,29 @@ const totalSkills = techs.reduce((a, t) => a + t.skillCount, 0);
         <span class="text-ide-comment select-none text-xs">$</span>
         <code class="text-ide-string text-sm flex-1">npx devskills-cli</code>
         <button
-          onclick="navigator.clipboard.writeText('npx devskills-cli').then(() => { this.textContent = 'OK'; setTimeout(() => this.textContent = 'Copiar', 2000) })"
+          onclick="navigator.clipboard.writeText('npx devskills-cli').then(() => { this.textContent = 'OK'; window.setTimeout(() => { var ds = window.__devskillsStrings; var l = window.__devskillsLang || 'es'; this.textContent = ds ? ds[l].copiar : 'Copiar'; }, 2000) })"
           class="text-xs text-ide-textDim hover:text-ide-text border border-ide-border rounded px-2 py-1 transition-colors shrink-0"
-        >Copiar</button>
+          data-i18n="copiar">Copiar</button>
       </div>
     </div>
 
     <!-- Stats -->
     <div class="grid grid-cols-2 gap-3 mb-8">
       <div class="bg-ide-sidebar border border-ide-border rounded-lg p-4">
-        <div class="text-ide-accent text-[10px] uppercase tracking-widest mb-1">skills</div>
+        <div class="text-ide-accent text-[10px] uppercase tracking-widest mb-1" data-i18n="skills">skills</div>
         <div class="text-2xl font-bold text-ide-text">{totalSkills}</div>
-        <div class="text-ide-textDim text-xs">disponibles</div>
+        <div class="text-ide-textDim text-xs" data-i18n="disponibles">disponibles</div>
       </div>
       <div class="bg-ide-sidebar border border-ide-border rounded-lg p-4">
-        <div class="text-ide-accentSecondary text-[10px] uppercase tracking-widest mb-1">mcps</div>
+        <div class="text-ide-accentSecondary text-[10px] uppercase tracking-widest mb-1" data-i18n="mcps">mcps</div>
         <div class="text-2xl font-bold text-ide-text">{mcps.length}</div>
-        <div class="text-ide-textDim text-xs">curados</div>
+        <div class="text-ide-textDim text-xs" data-i18n="curados">curados</div>
       </div>
     </div>
 
     <!-- Technologies -->
     <section class="mb-8">
-      <h2 class="text-ide-textDim text-[10px] uppercase tracking-widest mb-4">// Tecnologías</h2>
+      <h2 class="text-ide-textDim text-[10px] uppercase tracking-widest mb-4">// <span data-i18n="tecnologias">Tecnologías</span></h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {techs.map(tech => (
           <a
