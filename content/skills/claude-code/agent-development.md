@@ -2,6 +2,7 @@
 title: Agent Development
 name: agent-development
 description: Build autonomous agents for Claude Code plugins. Covers agent structure, system prompt design, triggering conditions, frontmatter fields, and best practices.
+description_es: "Construye agentes autónomos para plugins de Claude Code. Cubre estructura del agente, diseño del system prompt, condiciones de activación y mejores prácticas."
 tags: [claude-code, agents, plugins, autonomous, ai]
 source: https://github.com/anthropics/claude-code/tree/main/plugins/plugin-dev
 version: 0.1.0

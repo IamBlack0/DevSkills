@@ -1,6 +1,7 @@
 ---
 title: "Filesystem MCP"
 description: "Acceso controlado al sistema de archivos local para leer, escribir y gestionar archivos"
+description_en: "Controlled access to the local filesystem to read, write, and manage files"
 repo: "https://github.com/modelcontextprotocol/servers/tree/main/src/filesystem"
 url: "https://modelcontextprotocol.io"
 clients: ["cursor", "claude-code", "vscode", "opencode"]
@@ -73,3 +74,57 @@ A diferencia del acceso directo a herramientas de shell, Filesystem MCP proporci
 | Cursor | ✓ Soportado |
 | VSCode Copilot | ✓ Soportado |
 | OpenCode | ✓ Soportado |
+
+<!-- EN -->
+
+## What does it do?
+
+Filesystem MCP gives your AI agent controlled access to the file system. You can specify exactly which directories are accessible, keeping control over what the agent can read or modify.
+
+Unlike direct shell tool access, Filesystem MCP provides a security layer that limits access to only the allowed paths.
+
+## Installation
+
+### Claude Code (read-only for current project)
+
+```json
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/path/to/your/project"
+      ]
+    }
+  }
+}
+```
+
+### With multiple directories
+
+```json
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/home/user/projects",
+        "/home/user/documents"
+      ]
+    }
+  }
+}
+```
+
+## Compatibility
+
+| Client | Status |
+|--------|--------|
+| Claude Code | ✓ Supported |
+| Cursor | ✓ Supported |
+| VSCode Copilot | ✓ Supported |
+| OpenCode | ✓ Supported |

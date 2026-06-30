@@ -2,5 +2,6 @@
   "label": "Node.js",
   "icon": "N",
   "svgUrl": "https://cdn.simpleicons.org/nodedotjs/white",
-  "description": "Skills para Node.js — arquitectura backend, patrones de API, y mejores practicas"
+  "description": "Skills para Node.js — arquitectura backend, patrones de API, y mejores practicas",
+  "description_en": "Skills for Node.js — backend architecture, API patterns, and best practices"
 }

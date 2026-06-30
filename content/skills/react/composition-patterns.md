@@ -2,6 +2,7 @@
 title: React Composition Patterns
 name: vercel-composition-patterns
 description: React composition patterns that scale. Avoid boolean prop proliferation by using compound components, lifting state, and composing internals. Includes React 19 API changes.
+description_es: "Patrones de composición de React que escalan. Evita la proliferación de props booleanos usando compound components y composición de internals. Incluye cambios de React 19."
 tags: [react, composition, compound-components, architecture, vercel]
 source: https://github.com/vercel-labs/agent-skills/tree/main/skills/composition-patterns
 license: MIT

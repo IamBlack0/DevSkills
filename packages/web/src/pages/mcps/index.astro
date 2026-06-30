@@ -1,5 +1,6 @@
 ---
 import IDELayout from '../../layouts/IDELayout.astro';
+import Icon from '../../components/Icon.astro';
 import { getMCPs } from '../../utils/catalog';
 
 const mcps = getMCPs();
@@ -16,7 +17,7 @@ const categoryFilters = [...new Set(mcps.map(m => m.category))];
       class="flex items-center gap-2 px-4 py-2 bg-ide-tabActive border-r border-ide-border text-xs text-ide-text border-t-2 border-t-ide-accentSecondary"
     >
       <img src="https://cdn.simpleicons.org/modelcontextprotocol/white" width="13" height="13" alt="MCP" class="shrink-0" />
-      <span>mcps/</span>
+      <span data-i18n="mcps_dir">mcps/</span>
     </a>
   </slot>
 
@@ -41,7 +42,7 @@ const categoryFilters = [...new Set(mcps.map(m => m.category))];
             :class={`client === '${f}' ? 'border-ide-accentSecondary text-ide-text' : 'border-ide-border text-ide-textDim hover:border-ide-textDim'`}
             class="text-xs border rounded px-2 py-1 transition-colors"
           >
-            <span{f === 'todos' ? ' data-i18n="todos"' : ''}>{f}</span>
+            <span {...(f === 'todos' ? {'data-i18n': 'todos'} : {})}>{f}</span>
           </button>
         ))}
       </div>
@@ -50,14 +51,14 @@ const categoryFilters = [...new Set(mcps.map(m => m.category))];
     <!-- Grid -->
     <div class="grid grid-cols-1 gap-3 max-w-2xl">
       {mcps.map(mcp => (
-        <a
-          href={`${base}/mcps/${mcp.id}`}
+        <div
           x-show={`client === 'todos' || ${JSON.stringify(mcp.clients)}.includes(client)`}
-          class="group block bg-ide-sidebar border border-ide-border rounded-lg p-4 hover:border-ide-accentSecondary transition-colors"
+          class="group bg-ide-sidebar border border-ide-border rounded-lg p-4 hover:border-ide-accentSecondary transition-colors cursor-pointer"
           data-search
           data-search-title={mcp.title}
           data-search-type="mcp"
           data-search-hint={mcp.author}
+          onclick={`window.location.href='${base}/mcps/${mcp.id}'`}
         >
           <div class="flex items-start justify-between gap-3">
             <div class="flex-1 min-w-0">
@@ -65,9 +66,15 @@ const categoryFilters = [...new Set(mcps.map(m => m.category))];
                 <span class="text-sm font-medium text-ide-text group-hover:text-ide-accentSecondary transition-colors">
                   {mcp.title}
                 </span>
-                <span class="text-xs text-ide-comment">⭐ {mcp.stars.toLocaleString()}</span>
+                <span class="flex items-center gap-1 text-xs text-ide-comment">
+                  <Icon name="star" size={10} />
+                  {mcp.stars.toLocaleString()}
+                </span>
               </div>
-              <p class="text-xs text-ide-textDim mb-2">{mcp.description}</p>
+              <p class="text-xs text-ide-textDim mb-2">
+                <span class="lang-es">{mcp.description}</span>
+                <span class="lang-en" style="display:none">{mcp.descriptionEn ?? mcp.description}</span>
+              </p>
               <div class="flex items-center gap-2 flex-wrap">
                 <a
                   href={mcp.repo}
@@ -90,7 +97,7 @@ const categoryFilters = [...new Set(mcps.map(m => m.category))];
               ))}
             </div>
           </div>
-        </a>
+        </div>
       ))}
     </div>
   </div>

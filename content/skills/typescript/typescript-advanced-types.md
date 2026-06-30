@@ -2,6 +2,7 @@
 title: TypeScript Advanced Types
 name: typescript-advanced-types
 description: Master TypeScript's advanced type system — generics, conditional types, mapped types, template literals, and utility types for building type-safe applications.
+description_es: "Domina el sistema de tipos avanzados de TypeScript — generics, tipos condicionales, mapped types, template literals y utility types para aplicaciones type-safe."
 tags: [typescript, types, generics, type-safety]
 source: https://github.com/midudev/autoskills/tree/main/packages/autoskills/skills-registry/typescript-advanced-types
 ---

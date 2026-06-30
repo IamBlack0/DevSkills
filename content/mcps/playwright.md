@@ -1,6 +1,7 @@
 ---
 title: "Playwright MCP"
 description: "Automatización de navegadores para agentes IA — navega, hace clic, toma screenshots"
+description_en: "Browser automation for AI agents — navigate, click elements, take screenshots"
 repo: "https://github.com/microsoft/playwright-mcp"
 url: "https://playwright.dev"
 clients: ["cursor", "claude-code", "vscode", "opencode"]
@@ -67,3 +68,50 @@ Casos de uso principales:
 | Cursor | ✓ Soportado |
 | VSCode Copilot | ✓ Soportado |
 | OpenCode | ✓ Soportado |
+
+<!-- EN -->
+
+## What does it do?
+
+Playwright MCP allows your AI agent to control a real browser. It can navigate to URLs, click elements, fill out forms, take screenshots, and extract content from web pages.
+
+Main use cases:
+- Testing web applications with natural language instructions
+- Controlled scraping with complex logic
+- Automation of repetitive browser tasks
+- Visual verification of UI changes
+
+## Installation
+
+### Claude Code
+
+```json
+{
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"]
+    }
+  }
+}
+```
+
+### With visible browser (headed mode)
+
+```json
+{
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest", "--headless=false"]
+    }
+  }
+}
+```
+
+## Compatibility
+
+| Client | Status |
+|--------|--------|
+| Claude Code | ✓ Supported |
+| Cursor | ✓ Supported |

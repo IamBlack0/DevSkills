@@ -2,6 +2,7 @@
 title: Node.js Best Practices
 name: nodejs-best-practices
 description: Node.js development principles and decision-making for 2025 — framework selection, async patterns, security, and architecture. Teaches thinking, not copying.
+description_es: "Principios de desarrollo Node.js para 2025 — selección de framework, patrones async, seguridad y arquitectura. Enseña a pensar, no a copiar."
 tags: [nodejs, backend, architecture, security, async]
 source: https://github.com/midudev/autoskills/tree/main/packages/autoskills/skills-registry/nodejs-best-practices
 ---

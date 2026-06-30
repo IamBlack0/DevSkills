@@ -11,7 +11,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   <slot slot="tabs">
     <div class="flex items-center gap-1.5 px-4 py-2 bg-ide-tabActive border-r border-ide-border text-xs text-ide-text border-t-2 border-t-ide-accent">
       <Icon name="folder" size={11} class="text-ide-textDim" />
-      <span>skills/</span>
+      <span data-i18n="skills_dir">skills/</span>
     </div>
   </slot>
 
@@ -31,7 +31,10 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
             <span class="font-medium text-ide-text group-hover:text-ide-accent transition-colors">{tech.label}</span>
             <span class="ml-auto text-xs text-ide-comment">{tech.skillCount}</span>
           </div>
-          <div class="text-xs text-ide-textDim line-clamp-2">{tech.description}</div>
+          <div class="text-xs text-ide-textDim line-clamp-2">
+            <span class="lang-es">{tech.descriptionEs ?? tech.description}</span>
+            <span class="lang-en" style="display:none">{tech.descriptionEn ?? tech.description}</span>
+          </div>
         </a>
       ))}
     </div>

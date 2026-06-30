@@ -2,6 +2,7 @@
 title: Python Development Patterns
 name: python-patterns
 description: Pythonic idioms, PEP 8 standards, type hints, and best practices for building robust, efficient, and maintainable Python applications.
+description_es: "Modismos Pythonic, estándares PEP 8, type hints y mejores prácticas para construir aplicaciones Python robustas, eficientes y mantenibles."
 tags: [python, patterns, type-hints, best-practices, pep8]
 source: https://github.com/midudev/autoskills/tree/main/packages/autoskills/skills-registry/python-patterns
 ---

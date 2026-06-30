@@ -2,6 +2,7 @@
 title: Node.js Backend Patterns
 name: nodejs-backend-patterns
 description: Build production-ready Node.js backend services — middleware patterns, error handling, authentication, database integration, and API design best practices.
+description_es: "Construye servicios backend Node.js listos para producción — patrones de middleware, manejo de errores, autenticación, integración de base de datos y diseño de API."
 tags: [nodejs, backend, api, express, fastify, patterns]
 source: https://github.com/midudev/autoskills/tree/main/packages/autoskills/skills-registry/nodejs-backend-patterns
 ---

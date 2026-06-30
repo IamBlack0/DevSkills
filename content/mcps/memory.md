@@ -1,6 +1,7 @@
 ---
 title: "Memory MCP"
 description: "Memoria persistente para tu agente IA basada en un knowledge graph local"
+description_en: "Persistent memory for your AI agent based on a local knowledge graph"
 repo: "https://github.com/modelcontextprotocol/servers/tree/main/src/memory"
 url: "https://modelcontextprotocol.io"
 clients: ["cursor", "claude-code", "vscode", "opencode"]
@@ -66,3 +67,58 @@ Agente: [Consulta el knowledge graph] El proyecto X usa PostgreSQL 16 en producc
 | Cursor | ✓ Soportado |
 | VSCode Copilot | ✓ Soportado |
 | OpenCode | ✓ Soportado |
+
+<!-- EN -->
+
+## What does it do?
+
+Memory MCP gives your AI agent persistent memory between conversations. It stores entities, relationships, and observations in a local knowledge graph (a JSON file on your machine). The agent can save and retrieve information about people, projects, preferences, and anything you want it to remember.
+
+Unlike notes in the system prompt, Memory MCP provides structured, queryable memory that persists across sessions.
+
+## Installation
+
+### Claude Code
+
+```json
+{
+  "mcpServers": {
+    "memory": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-memory"]
+    }
+  }
+}
+```
+
+The knowledge graph is saved at `~/.mcp-memory/memory.json` by default.
+
+## Available tools
+
+| Tool | Description |
+|------|-------------|
+| `create_entities` | Create new entities in the graph |
+| `create_relations` | Establish relationships between entities |
+| `add_observations` | Add observations to existing entities |
+| `search_nodes` | Search entities by text |
+| `open_nodes` | Get details of specific entities |
+| `delete_entities` | Remove entities from the graph |
+
+## Usage example
+
+```
+User: Remember that project X uses PostgreSQL 16 and is in production on AWS us-east-1.
+Agent: Saved. I've created an entity for "project X" with those details.
+
+User: What do you know about project X?
+Agent: Project X uses PostgreSQL 16 and is deployed in production on AWS us-east-1.
+```
+
+## Compatibility
+
+| Client | Status |
+|--------|--------|
+| Claude Code | ✓ Supported |
+| Cursor | ✓ Supported |
+| VSCode Copilot | ✓ Supported |
+| OpenCode | ✓ Supported |

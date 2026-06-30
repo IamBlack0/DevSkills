@@ -2,6 +2,7 @@
 title: Next.js Best Practices
 name: next-best-practices
 description: Next.js best practices for file conventions, RSC boundaries, data patterns, async APIs (Next.js 15+), metadata, error handling, route handlers, and image/font optimization.
+description_es: "Mejores prácticas de Next.js para convenciones de archivos, límites RSC, patrones de datos, APIs async (Next.js 15+), metadata, manejo de errores y optimización."
 tags: [nextjs, react, rsc, server-components, vercel]
 source: https://github.com/vercel-labs/next-skills/tree/main/skills/next-best-practices
 ---
