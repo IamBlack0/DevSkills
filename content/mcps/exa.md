@@ -2,6 +2,7 @@
 hidden: true
 title: "Exa MCP"
 description: "Búsqueda web semántica de alta calidad optimizada para agentes IA"
+description_en: "High-quality semantic web search optimized for AI agents"
 repo: "https://github.com/exa-labs/exa-mcp-server"
 url: "https://exa.ai"
 clients: ["cursor", "claude-code", "vscode", "opencode"]
@@ -80,3 +81,54 @@ Necesitas una API key gratuita de Exa:
 | Cursor | ✓ Soportado |
 | VSCode Copilot | ✓ Soportado |
 | OpenCode | ✓ Soportado |
+
+<!-- EN -->
+
+## What does it do?
+
+Exa MCP connects your AI agent with Exa, a search engine designed specifically for high-quality semantic searches. Unlike Google or Bing, Exa returns relevant results for complex technical queries — ideal for research and development.
+
+Main use cases:
+
+- Search for documentation, libraries, or new tools
+- Research competitors, papers, or technical trends
+- Verify recent information about APIs and frameworks
+- Find code examples in public repositories
+
+## Requirements
+
+You need a free Exa API key:
+
+1. Sign up at https://exa.ai
+2. The free plan includes 1,000 searches per month
+
+## Installation
+
+### Claude Code
+
+```json
+{
+  "mcpServers": {
+    "exa": {
+      "command": "npx",
+      "args": ["-y", "exa-mcp-server"],
+      "env": {
+        "EXA_API_KEY": "your-api-key"
+      }
+    }
+  }
+}
+```
+
+### Cursor
+
+(same configuration, replace the env value with your key)
+
+## Compatibility
+
+| Client | Status |
+|--------|--------|
+| Claude Code | ✓ Supported |
+| Cursor | ✓ Supported |
+| VSCode Copilot | ✓ Supported |
+| OpenCode | ✓ Supported |

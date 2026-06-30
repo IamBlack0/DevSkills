@@ -2,5 +2,6 @@
   "label": "React",
   "icon": "R",
   "svgUrl": "https://cdn.simpleicons.org/react/white",
-  "description": "Skills para React — performance, composition patterns, y mejores practicas de Vercel"
+  "description": "Skills para React — performance, composition patterns, y mejores practicas de Vercel",
+  "description_en": "Skills for React — performance, composition patterns, and Vercel best practices"
 }

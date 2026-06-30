@@ -36,7 +36,10 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       </span>
     </div>
 
-    <p class="text-ide-textDim text-sm mb-8">{tech.description}</p>
+    <p class="text-ide-textDim text-sm mb-8">
+      <span class="lang-es">{tech.descriptionEs ?? tech.description}</span>
+      <span class="lang-en" style="display:none">{tech.descriptionEn ?? tech.description}</span>
+    </p>
 
     <div class="space-y-2">
       {skills.map(skill => (
@@ -55,7 +58,10 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
             </span>
           </div>
           <div class="text-xs text-ide-textDim ml-5">{skill.title}</div>
-          <div class="text-xs text-ide-textMuted ml-5 mt-0.5 truncate">{skill.description}</div>
+          <div class="text-xs text-ide-textMuted ml-5 mt-0.5 truncate">
+            <span class="lang-es">{skill.descriptionEs ?? skill.description}</span>
+            <span class="lang-en" style="display:none">{skill.description}</span>
+          </div>
           {skill.tags.length > 0 && (
             <div class="flex gap-1 mt-2 ml-5 flex-wrap">
               {skill.tags.map(tag => (

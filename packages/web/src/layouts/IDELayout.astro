@@ -30,7 +30,7 @@ const ogImage = image.startsWith('http') ? image : `${site}${image}`;
 ---
 
 <!doctype html>
-<html lang="es" x-data="{ lang: 'es', i18n: {} }" x-init="initI18n()">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -77,11 +77,11 @@ const ogImage = image.startsWith('http') ? image : `${site}${image}`;
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/styles/vs2015.min.css" />
     <script is:inline>
-      window.__devskillsStrings = {"es":{"welcome":"Bienvenido a","tagline":"Skills y MCPs curados para developers. Navega el explorador","or_use":"o usa","to_search":"para buscar.","skills":"Skills","mcps":"MCPs","disponibles":"disponibles","curados":"curados","tecnologias":"Tecnologías","copiar":"Copiar","copiado":"Copiado","buscando":"Buscando...","home":"Inicio","explorer":"Explorer","ver_todos":"ver todos...","search_placeholder":"Buscar skills y MCPs...","no_results":"Sin resultados","herramientas":"herramientas","cliente":"Cliente:","todos":"todos","repositorio":"Repositorio","autor":"Autor","clientes":"Clientes","instalacion":"Instalación:","cerrar":"Cerrar","repo_link":"repo","lang_toggle":"ES","lang_tooltip":"Cambiar a EN","skills_label":"skills","mcps_label":"MCPs","utf8":"UTF-8"},"en":{"welcome":"Welcome to","tagline":"Curated skills & MCPs for developers. Browse the explorer","or_use":"or use","to_search":"to search.","skills":"Skills","mcps":"MCPs","disponibles":"available","curados":"curated","tecnologias":"Technologies","copiar":"Copy","copiado":"Copied","buscando":"Searching...","home":"Home","explorer":"Explorer","ver_todos":"view all...","search_placeholder":"Search skills and MCPs...","no_results":"No results","herramientas":"tools","cliente":"Client:","todos":"all","repositorio":"Repository","autor":"Author","clientes":"Clients","instalacion":"Installation:","cerrar":"Close","repo_link":"repo","lang_toggle":"EN","lang_tooltip":"Switch to ES","skills_label":"skills","mcps_label":"MCPs","utf8":"UTF-8"}};
+      window.__devskillsStrings = {"es":{"welcome":"Bienvenido a","welcome_tab":"Inicio","tagline":"Skills y MCPs curados para developers. Navega el explorador","or_use":"o usa","to_search":"para buscar.","skills":"Skills","sidebar_skills":"skills","skills_dir":"skills/","mcps_dir":"mcps/","mcps":"MCPs","sidebar_mcps":"mcps","disponibles":"disponibles","curados":"curados","tecnologias":"Tecnologías","copiar":"Copiar","copiado":"Copiado","ok":"OK","buscando":"Buscando...","home":"Inicio","explorer":"Explorer","ver_todos":"ver todos...","search_placeholder":"Buscar skills y MCPs...","no_results":"Sin resultados","herramientas":"herramientas","cliente":"Cliente:","todos":"todos","repositorio":"Repositorio","autor":"Autor","clientes":"Clientes","instalacion":"Instalación:","cerrar":"Cerrar","repo_link":"repo","lang_toggle":"ES","lang_tooltip":"Cambiar a EN","skills_label":"skills","mcps_label":"MCPs","utf8":"UTF-8","mcps_subtitle":"Herramientas para agentes IA — verificadas y con repositorio"},"en":{"welcome":"Welcome to","welcome_tab":"Welcome","tagline":"Curated skills & MCPs for developers. Browse the explorer","or_use":"or use","to_search":"to search.","skills":"Skills","sidebar_skills":"skills","skills_dir":"skills/","mcps_dir":"mcps/","mcps":"MCPs","sidebar_mcps":"mcps","disponibles":"available","curados":"curated","tecnologias":"Technologies","copiar":"Copy","copiado":"Copied","ok":"OK","buscando":"Searching...","home":"Home","explorer":"Explorer","ver_todos":"view all...","search_placeholder":"Search skills and MCPs...","no_results":"No results","herramientas":"tools","cliente":"Client:","todos":"all","repositorio":"Repository","autor":"Author","clientes":"Clients","instalacion":"Installation:","cerrar":"Close","repo_link":"repo","lang_toggle":"EN","lang_tooltip":"Switch to ES","skills_label":"skills","mcps_label":"MCPs","utf8":"UTF-8","mcps_subtitle":"AI agent tools — verified with repositories"}};
       (function() {
         try {
           var s = localStorage.getItem('devskills-lang');
-          if (s !== 'es' && s !== 'en') s = navigator.language.startsWith('es') ? 'es' : 'en';
+          if (s !== 'es' && s !== 'en') s = 'es';
           window.__devskillsLang = s;
         } catch(e) { window.__devskillsLang = 'es'; }
       })();
@@ -118,9 +118,16 @@ const ogImage = image.startsWith('http') ? image : `${site}${image}`;
             sp.textContent = lang === 'en' ? 'home' : 'inicio';
           }
         }
+        document.querySelectorAll('.lang-es').forEach(function(el) {
+          el.style.display = lang === 'es' ? '' : 'none';
+        });
+        document.querySelectorAll('.lang-en').forEach(function(el) {
+          el.style.display = lang === 'en' ? '' : 'none';
+        });
       };
       window.__initI18n = function() { window.__setLang(window.__devskillsLang); };
     </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   </head>
 
@@ -189,7 +196,6 @@ const ogImage = image.startsWith('http') ? image : `${site}${image}`;
         <a
           href={base || '/'}
           class="flex items-center gap-1.5 px-3 py-2 text-xs text-ide-textDim hover:text-ide-text hover:bg-white/5 transition-colors"
-          data-i18n="home"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
@@ -200,7 +206,6 @@ const ogImage = image.startsWith('http') ? image : `${site}${image}`;
         <a
           href={`${base}/skills`}
           class="flex items-center gap-1.5 px-3 py-2 text-xs text-ide-textDim hover:text-ide-accent hover:bg-white/5 transition-colors"
-          data-i18n="skills"
         >
           <Icon name="folder" size={12} />
           <span data-i18n="skills">Skills</span>
@@ -208,7 +213,6 @@ const ogImage = image.startsWith('http') ? image : `${site}${image}`;
         <a
           href={`${base}/mcps`}
           class="flex items-center gap-1.5 px-3 py-2 text-xs text-ide-textDim hover:text-ide-accentSecondary hover:bg-white/5 transition-colors"
-          data-i18n="mcps"
         >
           <Icon name="package" size={12} />
           <span data-i18n="mcps">MCPs</span>
@@ -264,7 +268,7 @@ const ogImage = image.startsWith('http') ? image : `${site}${image}`;
               <Icon name="chevron-right" size={10} class="text-ide-textDim" />
             </span>
             <Icon name="folder" size={12} class="text-ide-accent" />
-            <span class="font-medium">skills</span>
+            <span class="font-medium" data-i18n="sidebar_skills">skills</span>
           </button>
 
           <div x-show="open" x-collapse>
@@ -305,7 +309,7 @@ const ogImage = image.startsWith('http') ? image : `${site}${image}`;
               <Icon name="chevron-right" size={10} class="text-ide-textDim" />
             </span>
             <Icon name="package" size={12} class="text-ide-accentSecondary" />
-            <span class="font-medium">mcps</span>
+            <span class="font-medium" data-i18n="sidebar_mcps">mcps</span>
           </button>
 
           <div x-show="open" x-collapse>
@@ -344,13 +348,13 @@ const ogImage = image.startsWith('http') ? image : `${site}${image}`;
       <div class="flex items-center gap-3 shrink-0 opacity-90">
         <span class="hidden sm:flex items-center gap-1">
           <Icon name="terminal" size={10} />
-          {totalSkills} skills
+          {totalSkills} <span data-i18n="skills_label">skills</span>
         </span>
         <span class="hidden sm:flex items-center gap-1">
           <Icon name="package" size={10} />
-          {mcps.length} MCPs
+          {mcps.length} <span data-i18n="mcps_label">MCPs</span>
         </span>
-        <span class="hidden md:block">UTF-8</span>
+        <span class="hidden md:block" data-i18n="utf8">UTF-8</span>
       </div>
     </footer>
 
@@ -442,7 +446,7 @@ const ogImage = image.startsWith('http') ? image : `${site}${image}`;
         btn.addEventListener('click', async function() {
           var code = pre.querySelector('code')?.innerText ?? pre.innerText;
           await navigator.clipboard.writeText(code);
-          btn.textContent = 'OK';
+          btn.textContent = cl[clL] ? cl[clL].ok : 'OK';
           setTimeout(function() {
             btn.textContent = (cl[clL] ? cl[clL].copiar : 'Copiar');
           }, 2000);
@@ -509,5 +513,6 @@ const ogImage = image.startsWith('http') ? image : `${site}${image}`;
   .prose-ide pre code.hljs  { background: none !important; padding: 0; font-size: 0.78rem; }
 
   [x-cloak] { display: none !important; }
+  .lang-en, .lang-es { display: inline; }
 </style>
 

@@ -2,6 +2,7 @@
 title: Frontend Design
 name: frontend-design
 description: Create distinctive, production-grade frontend interfaces with high design quality. Generates creative, polished code that avoids generic AI aesthetics.
+description_es: "Crea interfaces frontend distintivas y listas para producción con alta calidad de diseño. Genera código creativo y pulido que evita la estética genérica de IA."
 tags: [frontend, design, ui, css, react, aesthetics]
 source: https://github.com/anthropics/claude-code/tree/main/plugins/frontend-design
 license: Complete terms in LICENSE.txt

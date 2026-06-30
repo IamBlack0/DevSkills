@@ -2,5 +2,6 @@
   "label": "Claude Code",
   "icon": "C",
   "svgUrl": "https://cdn.simpleicons.org/claude/white",
-  "description": "Official skills from Anthropic for Claude Code agents and plugins"
+  "description": "Official skills from Anthropic for Claude Code agents and plugins",
+  "description_es": "Skills oficiales de Anthropic para agentes y plugins de Claude Code"
 }

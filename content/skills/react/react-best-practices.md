@@ -2,6 +2,7 @@
 title: React Best Practices
 name: vercel-react-best-practices
 description: React and Next.js performance optimization guidelines from Vercel Engineering. 70 rules across 8 categories — waterfalls, bundle size, server performance, re-renders, and more.
+description_es: "Guías de optimización de rendimiento para React y Next.js de Vercel Engineering. 70 reglas en 8 categorías — waterfalls, tamaño de bundle, rendimiento en servidor, re-renders y más."
 tags: [react, nextjs, performance, optimization, vercel]
 source: https://github.com/vercel-labs/agent-skills/tree/main/skills/react-best-practices
 license: MIT

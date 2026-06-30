@@ -30,6 +30,7 @@ const { mcp, stars, updatedAt } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const htmlContent = renderMarkdown(mcp.content);
+const htmlContentEn = mcp.contentEn ? renderMarkdown(mcp.contentEn) : htmlContent;
 const starsDisplay = formatStars(stars);
 const updatedDisplay = updatedAt ? formatDate(updatedAt) : null;
 ---
@@ -41,7 +42,7 @@ const updatedDisplay = updatedAt ? formatDate(updatedAt) : null;
       class="flex items-center gap-2 px-4 py-2 bg-ide-tabs border-r border-ide-border text-xs text-ide-textDim hover:text-ide-text transition-colors"
     >
       <Icon name="package" size={11} />
-      <span>mcps/</span>
+      <span data-i18n="mcps_dir">mcps/</span>
     </a>
     <div class="flex items-center gap-2 px-4 py-2 bg-ide-tabActive border-r border-ide-border text-xs text-ide-text border-t-2 border-t-ide-accentSecondary">
       <img src="https://cdn.simpleicons.org/modelcontextprotocol/white" width="12" height="12" alt="MCP" class="shrink-0" />
@@ -53,7 +54,10 @@ const updatedDisplay = updatedAt ? formatDate(updatedAt) : null;
     <!-- MCP Header Card -->
     <div class="bg-ide-sidebar border border-ide-border rounded-lg p-5 mb-6">
       <h1 class="text-base font-bold text-ide-accentSecondary mb-1">{mcp.title}</h1>
-      <p class="text-sm text-ide-textDim mb-4">{mcp.description}</p>
+      <p class="text-sm text-ide-textDim mb-4">
+        <span class="lang-es">{mcp.description}</span>
+        <span class="lang-en" style="display:none">{mcp.descriptionEn ?? mcp.description}</span>
+      </p>
 
       <div class="space-y-2 text-xs">
         <!-- Repo -->
@@ -78,7 +82,7 @@ const updatedDisplay = updatedAt ? formatDate(updatedAt) : null;
           <span class="text-ide-text">{mcp.author}</span>
           <span class="flex items-center gap-1 text-ide-comment">
             <Icon name="star" size={11} />
-            <span title={`${stars.toLocaleString()} estrellas`}>{starsDisplay}</span>
+            <span>{starsDisplay}</span>
           </span>
           {updatedDisplay && (
             <span class="text-ide-textMuted flex items-center gap-1" title={updatedAt ?? ''}>
@@ -112,13 +116,13 @@ const updatedDisplay = updatedAt ? formatDate(updatedAt) : null;
             :class="copied ? 'text-ide-string border-ide-string' : ''"
             @click={`navigator.clipboard.writeText(${JSON.stringify(mcp.install)}).then(() => { copied = true; setTimeout(() => copied = false, 2000) })`}
           >
-            <span x-show="!copied" class="flex items-center gap-1" data-i18n="copiar">
+            <span x-show="!copied" class="flex items-center gap-1">
               <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
-              Copiar
+              <span data-i18n="copiar">Copiar</span>
             </span>
             <span x-show="copied" x-cloak class="flex items-center gap-1">
               <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
-              OK
+              <span data-i18n="ok">OK</span>
             </span>
           </button>
         </div>
@@ -126,6 +130,7 @@ const updatedDisplay = updatedAt ? formatDate(updatedAt) : null;
     </div>
 
     <!-- Contenido markdown (tablas + code con syntax highlighting) -->
-    <article class="prose-ide" set:html={htmlContent} />
+    <article class="prose-ide lang-es" set:html={htmlContent} />
+    <article class="prose-ide lang-en" style="display:none" set:html={htmlContentEn} />
   </div>
 </IDELayout>

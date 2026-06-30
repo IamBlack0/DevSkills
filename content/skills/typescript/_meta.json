@@ -2,5 +2,6 @@
   "label": "TypeScript",
   "icon": "T",
   "svgUrl": "https://cdn.simpleicons.org/typescript/white",
-  "description": "Skills para TypeScript — tipos avanzados, generics, y patrones de type safety"
+  "description": "Skills para TypeScript — tipos avanzados, generics, y patrones de type safety",
+  "description_en": "Skills for TypeScript — advanced types, generics, and type safety patterns"
 }

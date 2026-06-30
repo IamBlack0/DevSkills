@@ -1,6 +1,7 @@
 ---
 title: "Fetch MCP"
 description: "Obtén el contenido de cualquier URL como texto o markdown directamente en tu agente"
+description_en: "Fetch content from any URL as plain text or markdown directly into your agent"
 repo: "https://github.com/modelcontextprotocol/servers"
 url: "https://modelcontextprotocol.io"
 clients: ["cursor", "claude-code", "vscode", "opencode"]
@@ -83,3 +84,55 @@ Resultado: el contenido de la documentación de Astro como markdown limpio
 | Cursor | ✓ Soportado |
 | VSCode Copilot | ✓ Soportado |
 | OpenCode | ✓ Soportado |
+
+<!-- EN -->
+
+## What does it do?
+
+Fetch MCP allows your AI agent to download the content of any URL and automatically convert it to plain text or Markdown. Ideal for reading documentation, reference pages, or any web resource without leaving the conversation.
+
+Completely free — no API key or registration required.
+
+Main use cases:
+
+- Read official library documentation in real time
+- Fetch the content of a changelog or release notes
+- Query an API reference directly from the agent
+- Verify the content of a page before processing
+
+## Installation
+
+### Claude Code
+
+```json
+{
+  "mcpServers": {
+    "fetch": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-fetch"]
+    }
+  }
+}
+```
+
+### Cursor
+
+```json
+{
+  "mcpServers": {
+    "fetch": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-fetch"]
+    }
+  }
+}
+```
+
+## Compatibility
+
+| Client | Status |
+|--------|--------|
+| Claude Code | ✓ Supported |
+| Cursor | ✓ Supported |
+| VSCode Copilot | ✓ Supported |
+| OpenCode | ✓ Supported |

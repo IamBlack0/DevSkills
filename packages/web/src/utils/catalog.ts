@@ -10,6 +10,8 @@ export interface TechMeta {
   icon: string;
   svgUrl?: string;
   description: string;
+  descriptionEn?: string;
+  descriptionEs?: string;
 }
 
 export interface Skill {
@@ -17,6 +19,7 @@ export interface Skill {
   tech: string;
   title: string;
   description: string;
+  descriptionEs?: string;
   tags: string[];
   source?: string;
   content: string;
@@ -26,6 +29,7 @@ export interface MCP {
   id: string;
   title: string;
   description: string;
+  descriptionEn?: string;
   repo: string;
   url: string;
   clients: string[];
@@ -34,6 +38,7 @@ export interface MCP {
   author: string;
   stars: number;
   content: string;
+  contentEn?: string;
 }
 
 export function getTechnologies(): (TechMeta & { skillCount: number })[] {
@@ -46,7 +51,13 @@ export function getTechnologies(): (TechMeta & { skillCount: number })[] {
         ? JSON.parse(readFileSync(metaPath, 'utf8'))
         : { label: d.name, icon: '?', description: '' };
       const skills = getSkillsForTech(d.name);
-      return { id: d.name, ...meta, skillCount: skills.length };
+      return {
+        id: d.name,
+        ...meta,
+        descriptionEn: meta.description_en ?? meta.descriptionEn ?? undefined,
+        descriptionEs: meta.description_es ?? meta.descriptionEs ?? undefined,
+        skillCount: skills.length,
+      };
     });
 }
 
@@ -63,6 +74,7 @@ export function getSkillsForTech(techId: string): Skill[] {
         tech: techId,
         title: data.title ?? file,
         description: data.description ?? '',
+        descriptionEs: data.description_es ?? undefined,
         tags: data.tags ?? [],
         source: data.source ?? undefined,
         content,
@@ -82,6 +94,7 @@ export function getMCPs(): MCP[] {
         id: file.replace('.md', ''),
         title: data.title ?? file,
         description: data.description ?? '',
+        descriptionEn: data.description_en ?? undefined,
         repo: data.repo ?? '',
         url: data.url ?? '',
         clients: data.clients ?? [],
@@ -90,7 +103,14 @@ export function getMCPs(): MCP[] {
         author: data.author ?? '',
         stars: data.stars ?? 0,
         hidden: data.hidden ?? false,
-        content,
+        content: (() => {
+          const parts = content.split(/\n?<!-- EN -->\n?/);
+          return parts[0].trim();
+        })(),
+        contentEn: (() => {
+          const parts = content.split(/\n?<!-- EN -->\n?/);
+          return parts[1]?.trim() ?? undefined;
+        })(),
       };
     })
     .filter(mcp => !mcp.hidden);
