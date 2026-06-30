@@ -1,6 +1,6 @@
 {
   "name": "devskills-cli",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Skills & MCPs para tu terminal — navega, aprende y copia",
   "main": "./dist/index.js",
   "bin": {

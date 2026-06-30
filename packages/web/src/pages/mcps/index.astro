@@ -24,17 +24,17 @@ const categoryFilters = [...new Set(mcps.map(m => m.category))];
     <div class="flex items-center justify-between mb-6">
       <div>
         <h1 class="text-xl font-bold text-ide-accentSecondary mb-1">MCPs</h1>
-        <p class="text-xs text-ide-textDim">Herramientas para agentes IA — verificadas y con repositorio</p>
+        <p class="text-xs text-ide-textDim" data-i18n="mcps_subtitle">Herramientas para agentes IA — verificadas y con repositorio</p>
       </div>
       <span class="text-xs text-ide-textDim bg-ide-sidebar border border-ide-border rounded px-2 py-1">
-        {mcps.length} herramientas
+        {mcps.length} <span data-i18n="herramientas">herramientas</span>
       </span>
     </div>
 
     <!-- Filters -->
     <div class="flex flex-wrap gap-2 mb-6">
       <div class="flex items-center gap-1">
-        <span class="text-xs text-ide-textDim mr-1">Cliente:</span>
+        <span class="text-xs text-ide-textDim mr-1" data-i18n="cliente">Cliente:</span>
         {clientFilters.map(f => (
           <button
             @click={`client = '${f}'`}
