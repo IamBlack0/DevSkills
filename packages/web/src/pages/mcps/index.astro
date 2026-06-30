@@ -41,7 +41,7 @@ const categoryFilters = [...new Set(mcps.map(m => m.category))];
             :class={`client === '${f}' ? 'border-ide-accentSecondary text-ide-text' : 'border-ide-border text-ide-textDim hover:border-ide-textDim'`}
             class="text-xs border rounded px-2 py-1 transition-colors"
           >
-            {f}
+            <span{f === 'todos' ? ' data-i18n="todos"' : ''}>{f}</span>
           </button>
         ))}
       </div>

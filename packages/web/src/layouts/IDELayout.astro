@@ -77,7 +77,7 @@ const ogImage = image.startsWith('http') ? image : `${site}${image}`;
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/styles/vs2015.min.css" />
     <script is:inline>
-      window.__devskillsStrings = {"es":{"welcome":"Bienvenido a","tagline":"Skills y MCPs curados para developers. Navega el explorador","or_use":"o usa","to_search":"para buscar.","skills":"Skills","mcps":"MCPs","disponibles":"disponibles","curados":"curados","tecnologias":"Tecnologías","copiar":"Copiar","copiado":"Copiado","buscando":"Buscando...","home":"Inicio","explorer":"Explorer","ver_todos":"ver todos...","search_placeholder":"Buscar skills y MCPs...","no_results":"Sin resultados","herramientas":"herramientas","cliente":"Cliente:","todos":"todos","repositorio":"Repositorio","autor":"Autor","clientes":"Clientes","instalacion":"Instalación:","repositorio":"Repositorio","cerrar":"Cerrar","repo_link":"repo","lang_es":"ES","lang_en":"EN","lang_tooltip":"Cambiar idioma","skills_dir":"skills/","mcps_dir":"mcps/","npx_cmd":"npx devskills-cli","ver_todos_html":"› ver todos..."},"en":{"welcome":"Welcome to","tagline":"Curated skills & MCPs for developers. Browse the explorer","or_use":"or use","to_search":"to search.","skills":"Skills","mcps":"MCPs","disponibles":"available","curados":"curated","tecnologias":"Technologies","copiar":"Copy","copiado":"Copied","buscando":"Searching...","home":"Home","explorer":"Explorer","ver_todos":"view all...","search_placeholder":"Search skills and MCPs...","no_results":"No results","herramientas":"tools","cliente":"Client:","todos":"all","repositorio":"Repository","autor":"Author","clientes":"Clients","instalacion":"Installation:","cerrar":"Close","repo_link":"repo","lang_es":"ES","lang_en":"EN","lang_tooltip":"Change language","skills_dir":"skills/","mcps_dir":"mcps/","npx_cmd":"npx devskills-cli","ver_todos_html":"› view all..."}};
+      window.__devskillsStrings = {"es":{"welcome":"Bienvenido a","tagline":"Skills y MCPs curados para developers. Navega el explorador","or_use":"o usa","to_search":"para buscar.","skills":"Skills","mcps":"MCPs","disponibles":"disponibles","curados":"curados","tecnologias":"Tecnologías","copiar":"Copiar","copiado":"Copiado","buscando":"Buscando...","home":"Inicio","explorer":"Explorer","ver_todos":"ver todos...","search_placeholder":"Buscar skills y MCPs...","no_results":"Sin resultados","herramientas":"herramientas","cliente":"Cliente:","todos":"todos","repositorio":"Repositorio","autor":"Autor","clientes":"Clientes","instalacion":"Instalación:","cerrar":"Cerrar","repo_link":"repo","lang_toggle":"ES","lang_tooltip":"Cambiar a EN","skills_label":"skills","mcps_label":"MCPs","utf8":"UTF-8"},"en":{"welcome":"Welcome to","tagline":"Curated skills & MCPs for developers. Browse the explorer","or_use":"or use","to_search":"to search.","skills":"Skills","mcps":"MCPs","disponibles":"available","curados":"curated","tecnologias":"Technologies","copiar":"Copy","copiado":"Copied","buscando":"Searching...","home":"Home","explorer":"Explorer","ver_todos":"view all...","search_placeholder":"Search skills and MCPs...","no_results":"No results","herramientas":"tools","cliente":"Client:","todos":"all","repositorio":"Repository","autor":"Author","clientes":"Clients","instalacion":"Installation:","cerrar":"Close","repo_link":"repo","lang_toggle":"EN","lang_tooltip":"Switch to ES","skills_label":"skills","mcps_label":"MCPs","utf8":"UTF-8"}};
       (function() {
         try {
           var s = localStorage.getItem('devskills-lang');
@@ -91,8 +91,18 @@ const ogImage = image.startsWith('http') ? image : `${site}${image}`;
         document.documentElement.setAttribute('lang', lang);
         document.querySelectorAll('[data-i18n]').forEach(function(el) {
           var key = el.getAttribute('data-i18n');
-          if (key && window.__devskillsStrings[lang] && window.__devskillsStrings[lang][key] !== undefined) {
+          if (key === 'lang_toggle') {
+            el.textContent = lang === 'es' ? 'ES' : 'EN';
+          } else if (key && window.__devskillsStrings[lang] && window.__devskillsStrings[lang][key] !== undefined) {
             el.textContent = window.__devskillsStrings[lang][key];
+          }
+        });
+        document.querySelectorAll('[data-i18n-tooltip]').forEach(function(el) {
+          var key = el.getAttribute('data-i18n-tooltip');
+          if (key === 'lang_tooltip') {
+            el.title = lang === 'es' ? 'Cambiar a EN' : 'Switch to ES';
+          } else if (key && window.__devskillsStrings[lang] && window.__devskillsStrings[lang][key] !== undefined) {
+            el.title = window.__devskillsStrings[lang][key];
           }
         });
         document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el) {
@@ -101,6 +111,13 @@ const ogImage = image.startsWith('http') ? image : `${site}${image}`;
             el.setAttribute('placeholder', window.__devskillsStrings[lang][key]);
           }
         });
+        var sp = document.getElementById('status-path');
+        if (sp && sp.dataset.orig !== undefined) {
+          var val = sp.dataset.orig || '';
+          if (val === '' || val === 'inicio') {
+            sp.textContent = lang === 'en' ? 'home' : 'inicio';
+          }
+        }
       };
       window.__initI18n = function() { window.__setLang(window.__devskillsLang); };
     </script>
@@ -149,14 +166,11 @@ const ogImage = image.startsWith('http') ? image : `${site}${image}`;
       <div class="flex items-center gap-3 text-xs text-ide-textDim">
         <button
           onclick="__setLang(window.__devskillsLang === 'es' ? 'en' : 'es')"
-          class="hover:text-ide-text transition-colors text-xs px-1.5"
-          title={description.includes('Cambiar') ? 'Cambiar idioma' : 'Change language'}
-          data-i18n="lang_tooltip"
-        >
-          <span data-i18n="lang_es" class="tabular-nums">ES</span>
-          <span class="text-ide-textMuted">/</span>
-          <span data-i18n="lang_en" class="tabular-nums">EN</span>
-        </button>
+          class="hover:text-ide-text transition-colors text-xs px-1.5 tabular-nums"
+          data-i18n="lang_toggle"
+          data-i18n-tooltip="lang_tooltip"
+          title="Cambiar a EN"
+        >ES</button>
         <a
           href="https://github.com/IamBlack0/devskills"
           target="_blank"
@@ -325,7 +339,7 @@ const ogImage = image.startsWith('http') ? image : `${site}${image}`;
         <Icon name="git-branch" size={11} />
         <span>main</span>
         <span class="opacity-40">|</span>
-        <span class="truncate text-[10px]" id="status-path">{currentPath || 'inicio'}</span>
+        <span class="truncate text-[10px]" id="status-path" data-orig={currentPath}>{currentPath || 'inicio'}</span>
       </div>
       <div class="flex items-center gap-3 shrink-0 opacity-90">
         <span class="hidden sm:flex items-center gap-1">
@@ -414,20 +428,24 @@ const ogImage = image.startsWith('http') ? image : `${site}${image}`;
       });
 
       // Botones copiar en bloques de código
-      document.querySelectorAll<HTMLPreElement>('.prose-ide pre').forEach(pre => {
-        const wrapper = document.createElement('div');
+      var cl = window.__devskillsStrings || {};
+      var clL = window.__devskillsLang || 'es';
+      document.querySelectorAll('.prose-ide pre').forEach(function(pre) {
+        var wrapper = document.createElement('div');
         wrapper.style.cssText = 'position:relative';
-        pre.parentNode!.insertBefore(wrapper, pre);
+        pre.parentNode.insertBefore(wrapper, pre);
         wrapper.appendChild(pre);
-        const btn = document.createElement('button');
+        var btn = document.createElement('button');
         btn.className = 'code-copy-btn';
-        btn.textContent = 'Copiar';
+        btn.textContent = cl[clL] ? cl[clL].copiar : 'Copiar';
         wrapper.appendChild(btn);
-        btn.addEventListener('click', async () => {
-          const code = pre.querySelector('code')?.innerText ?? pre.innerText;
+        btn.addEventListener('click', async function() {
+          var code = pre.querySelector('code')?.innerText ?? pre.innerText;
           await navigator.clipboard.writeText(code);
           btn.textContent = 'OK';
-          setTimeout(() => { btn.textContent = 'Copiar'; }, 2000);
+          setTimeout(function() {
+            btn.textContent = (cl[clL] ? cl[clL].copiar : 'Copiar');
+          }, 2000);
         });
       });
 
